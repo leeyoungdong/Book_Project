@@ -58,8 +58,12 @@ def unit_dicision(period_num):
         df = df.drop_duplicates()
         df.to_sql(name=table_name , con= engine, if_exists= 'append', index=False)
     conn.close()
-for period_num in period_nums:
-    unit_dicision(period_num)
+
+if __name__ == '__main__':
+    #period num은 위의 데이터 참고 002: 주간 003: 월간 004 : 연간
+    for period_num in period_nums:
+        unit_dicision(period_num)
+
 
 
 
