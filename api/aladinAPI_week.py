@@ -13,7 +13,7 @@ import datetime
 from lxml import html
 from urllib.parse import urlencode, quote_plus, unquote
 import datetime
-
+from sqlite3 import OperationalError
 
 #역으로 리스트 출력 
 #input : 시작(큰 수), 끝(작은 수) 
@@ -88,6 +88,7 @@ def Aladin_Week(year,month,week):
     #     print(ss)
     week_date =""
     week_date = year+month+week
+    
     for row in rows:
         try:
             title = row.find('title').text
@@ -100,23 +101,29 @@ def Aladin_Week(year,month,week):
             salesPoint = row.find('salesPoint').text
             rank = row.find('bestRank').text
             df =pd.DataFrame({'rank':rank,'title':title,'author':author,'publisher':publisher,'pubDate':pubDate,'description':description,'isbn10':isbn10,'price':price,'salesPoint':salesPoint} , index= [0])
-            aladin_week_data = pd.concat([aladin_week_data,df])
+            aladin_week_data = pd.concat([aladin_week_data,df],ignore_index= True)
+
         except AttributeError as e :
             print(e)
             pass
     aladin_week_data['wperiod']=week_date
-    con = pymysql.connect(host='localhost',
+    if len(aladin_week_data)==0:
+        print('안들어가')
+        pass
+
+    else:
+        con = pymysql.connect(host='localhost',
                             port=3306,
                             user='root',
-                            password='0000',
-                            db='kyobo',
+                            password='lgg032800',
+                            db='project2',
                             charset='utf8')
-    engine = create_engine('mysql+pymysql://root:0000@localhost/kyobo')
-    aladin_week_data.to_sql('aladin_week_data',if_exists='append',con=engine)
-    con.commit()
+
+        engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
+        aladin_week_data.to_sql('alading_week',if_exists = 'append', con = engine)
+        con.commit()
 
     
-
 if __name__ == "__main__":
     year_list = str_make_list_desc(2022, 2008)
     
@@ -127,6 +134,5 @@ if __name__ == "__main__":
             month = wstr_make_list_desc(11,1)
         for month in month_list:
             for week in week_list:
+                print(year, month, week)
                 Aladin_Week(year, month,week)
-
-    

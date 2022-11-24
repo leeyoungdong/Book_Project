@@ -120,7 +120,7 @@ def interpark_year(year, page):
 
 def interpark_month(year,month, page):
 
-    url = f'https://book.interpark.com/display/collectlist.do?_method=bestsellerHourNewMonthList201605_xml&cltTp=28&cltWeek={year}{month}0&category=month&bestTp=1&dispNo=028037&clickCnb=Y&page={page}'
+    url = f'https://book.interpark.com/display/collectlist.do?_method=bestsellerHourNewMonthList201605_xml&cltTp=28&cltTp=28&cltWeek={year}{month}0&category=month&bestTp=1&dispNo=028&clickCnb=Y&page={page}'
     print(url)
     response = urllib.request.urlopen(url)
     soup = bs(response,'html.parser')
@@ -144,15 +144,16 @@ def interpark_month(year,month, page):
     g = e.iloc[0:15]
     h = e.iloc[15:30]
     i = e.iloc[31:48]
-    g = g[['3','5','15','51','186','187']]
+
+    g = g[['3','5','15','51','187','188']]
     h = h[['315','319']]
     i = i[['21','30']]
 
     g['3'] =  g['3'].apply(preprocess_sentence)
     g['5'] =   g['5'].apply(preprocess_sentence)
-    g['187'] =  g['187'].apply(preprocess_sentence)
-    g['187'] =  g['187'].apply(presub)
-    g.sort_values('187')
+    g['188'] =  g['188'].apply(preprocess_sentence)
+    g['188'] =  g['188'].apply(presub)
+    g.sort_values('188')
 
     g['15'] = g['15'].str.replace(',', "' ")
     g['15'] = g['15'].str.replace(r'\\\\', r'\\')
@@ -167,12 +168,12 @@ def interpark_month(year,month, page):
     g['51'] = g['51'].str.decode('unicode_escape')
     g['51'] = g['51'].apply(preprocess_sentence) 
 
-    g['186'] = g['186'].str.replace(',', "' ")
-    g['186'] = g['186'].str.replace('.', "' ")
-    g['186'] = g['186'].str.replace(r'\\\\', r'\\')
-    g['186'] = "'" + g['186'].astype(str)
-    g['186'] = g['186'].str.decode('unicode_escape')
-    g['186'] = g['186'].apply(preprocess_sentence)
+    g['187'] = g['187'].str.replace(',', "' ")
+    g['187'] = g['187'].str.replace('.', "' ")
+    g['187'] = g['187'].str.replace(r'\\\\', r'\\')
+    g['187'] = "'" + g['187'].astype(str)
+    g['187'] = g['187'].str.decode('unicode_escape')
+    g['187'] = g['187'].apply(preprocess_sentence)
 
     g['15'] = g['15'].str.replace(',', "' ")
     g['15'] = g['15'].str.replace(r'\\\\', r'\\')
@@ -189,7 +190,7 @@ def interpark_month(year,month, page):
     
     g['date'], h['date'], i['date'] = str(year)+str(month), str(year)+str(month),str(year)+ str(month)
     g['rank'] = [(x + 1 +(page - 1) * 15) for x in range(15)]
-
+    
     con = pymysql.connect(host='localhost',
                             port=3306,
                             user='root',
@@ -216,6 +217,8 @@ def interpark_month(year,month, page):
         #   for j in range(1,6):
             
         #     yes24_week(a.strftime("%Y"),a.strftime("%m"),j,k)    /
+    
+interpark_month(2007, str('03'), 1)
 if __name__ == "__main__":
 
 
@@ -225,5 +228,12 @@ if __name__ == "__main__":
         a = datetime.datetime(2008, 2, 1) + relativedelta(months=k)
         
         for q in range(1,11):
-          print(a.strftime("%m"), z)
-          interpark_month(2006+z, a.strftime("%m"), q)
+          try:
+            print(a.strftime("%m")+"month", str(z)+"page")
+            interpark_month(2021+z, a.strftime("%m"), q)
+          except KeyError as e:
+            print(e)
+            print(str(2006+z),  a.strftime("%m"), q)
+          except TypeError as e:
+            print(e)
+            print(str(2006+z),  a.strftime("%m"), q)

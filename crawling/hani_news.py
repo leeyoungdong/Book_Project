@@ -45,7 +45,7 @@ def hani_news(date):
     con.commit()
 
 if __name__ == '__main__':
-  for i in range(387516,1068411):
+  for i in range(639636,1068411):
     try:
       print(i) 
       hani_news(i)
