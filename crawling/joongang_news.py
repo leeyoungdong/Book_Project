@@ -12,13 +12,13 @@ import pymysql
 from sqlalchemy import create_engine
 from urllib.request import HTTPError
 
-joongang_URL = 'https://www.joongang.co.kr/sitemap/index/{}'
+joongang_URL = 'https://www.joongang.co.kr/sitemap/index/{}/{}/{}'
 
-def joongang_crawl(date):
+def joongang_crawl(year, month, day):
 
 
     joongang_data = pd.DataFrame()
-    url = joongang_URL.format(date)
+    url = joongang_URL.format(year, month, day)
     response = urllib.request.urlopen(url)
     soup = bs(response,'html.parser')
     result = soup.select("li.card")

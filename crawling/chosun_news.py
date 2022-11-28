@@ -38,7 +38,7 @@ def chosun_crawl(year, month, day):
     chosun_data = chosun_data.reset_index()
     chosun_data = chosun_data.drop(columns='index')
     chosun_data['date'] = news_date
-    
+    print(chosun_data)    
     con = pymysql.connect(host='localhost',
                             port=3306,
                             user='root',

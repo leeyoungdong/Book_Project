@@ -9,7 +9,7 @@ import pymysql
 import os
 import re
 from sqlalchemy import create_engine
-import datetime
+import datetime 
 from urllib.request import HTTPError
 
 hani_url= 'https://www.hani.co.kr/arti/culture/culture_general/{}.html'
@@ -45,7 +45,7 @@ def hani_news(date):
     con.commit()
 
 if __name__ == '__main__':
-  for i in range(639636,1068411):
+  for i in range(791171,1068411):
     try:
       print(i) 
       hani_news(i)

@@ -13,7 +13,7 @@ import datetime
 
 khan_URL = 'https://www.khan.co.kr/sitemap.html?year={}&month={}&day={}'
 
-def hani(year, month, day):
+def khan(year, month, day):
     
     khan_data = pd.DataFrame()
 
@@ -52,4 +52,4 @@ if __name__ == '__main__':
     for i in range(1, 8200):
         print(i)
         a = datetime.datetime(2000, 7, 27) + datetime.timedelta(days= i - 1)
-        hani(a.strftime("%Y"),a.strftime("%m"),a.strftime("%d"))
+        khan(a.strftime("%Y"),a.strftime("%m"),a.strftime("%d"))
