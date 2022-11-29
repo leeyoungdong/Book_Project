@@ -39,3 +39,9 @@ joongang_stoplist = ['사진설명','신년사','문장으로 읽는 책','건�
 '인사','부고','사진','채서영의 별별영어','중앙SUNDAY 카툰','책꽂이','쿠킹','분수대','시조가 있는 아침','KCSI 우수기업','분양 FOCUS',
 '삶의 향기','권근영의 그림 속 얼굴','노트북을 열며','머니 브리핑','BOOK책갈피','어린이책','스포츠 중계','주말의 경기','스포츠카',
 '행복한책 읽기']
+
+chosun_col = ['z','index','0','date']
+joongang_col = ['z','index','context','date']
+hani_col = ['z','index','category','title','pdate']
+khan_col = ['z','index','context','date']
+donga_col = ['z','index', '0','date']
