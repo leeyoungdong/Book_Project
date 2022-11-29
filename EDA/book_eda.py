@@ -1,13 +1,13 @@
 import pandas as pd
 import numpy as np
 
-ip_month_grade = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_month_grade_202211250151.csv")
-ip_month_info = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_month_info_202211250151.csv")
-ip_month_sales = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_month_sales_202211250151.csv")
+# ip_month_grade = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_month_grade_202211250151.csv")
+# ip_month_info = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_month_info_202211250151.csv")
+# ip_month_sales = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_month_sales_202211250151.csv")
 
-ip_yr_grade = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_year_grade_202211241329.csv")
-ip_yr_info = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_year_info_202211241329.csv")
-ip_yr_sales = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_year_sales_202211241329.csv")
+# ip_yr_grade = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_year_grade_202211241329.csv")
+# ip_yr_info = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_year_info_202211241329.csv")
+# ip_yr_sales = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_year_sales_202211241329.csv")
 
 # grade
 def ip_grade(df):
@@ -16,10 +16,6 @@ def ip_grade(df):
     df = df.drop_duplicates(keep = 'first')
     
     return df
-
-ip_grade(ip_month_grade)
-# ip_grade(ip_yr_grade)
-
 
 # info
 def ip_m_info(df):
@@ -43,8 +39,6 @@ def ip_m_info(df):
     
     return df
 
-ip_m_info(ip_month_info)
-
 
 def ip_y_info(df):
     df = df.rename(columns={'3': 'accuCnt', '5': 'aggrCnt', '15': 'author', '51': 'category', '186': 'title', '187': 'ProdNo'})
@@ -67,9 +61,6 @@ def ip_y_info(df):
     
     return df
 
-ip_y_info(ip_yr_info)
-
-
 # sales
 def ip_sales(df):
     df = df.rename(columns={'315': '구매력?', '319': 'ProdNo'})
@@ -78,5 +69,18 @@ def ip_sales(df):
     
     return df
 
-ip_sales(ip_month_sales)
-# ip_sales(ip_yr_sales)
+def kyobo_dup(df):
+    df = df.drop_duplicates(subset = ['기간', '순위', '제목']) # keep = 'first' by default
+
+    return df 
+
+def yes_def(yes_year):
+    yes_year = yes_year.replace(r'\n','', regex=True)
+    yes_year['context'] = yes_year['context'].replace(r'\r','', regex=True)
+    yes_year['review'] = yes_year['review'].replace(r'\r','', regex=True)
+    yes_year['auther'] = yes_year['auther'].replace(r'\r','', regex=True)
+    yes_year['r_date'] = yes_year['r_date'].replace(r'\r','', regex=True)
+    yes_year[['auther','publisher','publication']] = yes_year['auther'].str.split('|', n=2, expand = True)
+    yes_year['publisher'] = yes_year['publisher'].replace(' ','', regex=True)
+    yes_year['context'] = yes_year['context'].str.slice(4)
+    return yes_year
