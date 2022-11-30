@@ -1,52 +1,54 @@
-import urllib
-from urllib.request import Request, urlopen
-import requests
-from bs4 import BeautifulSoup as bs
 import pandas as pd
-import time
-import datetime
-import pymysql
-import os
+import numpy as np
 import re
+import pymysql
 from sqlalchemy import create_engine
-import datetime
-from news_eda import donga_new
 
-donga_URL = 'https://www.donga.com/news/Pdf?ymd={}'
+jongang_isbn = pd.read_csv('C:/Users/youngdong/Desktop/data/joongdo_notyet.csv')
 
-def donga(date):
+lib_table = pd.DataFrame()
+lib_pub = pd.DataFrame()
+lib_sa = pd.DataFrame()
+lib_info = pd.DataFrame()
 
-    donga_data = pd.DataFrame()
-    url = donga_URL.format(date)
-    response = urllib.request.urlopen(url)
-    soup = bs(response,'html.parser')
-    result = soup.select('div.section_txt')
+a = jongang_isbn.groupby('author').cumcount()+1
+jongang_isbn['new'] = a
+jongang_isbn['new'] = jongang_isbn['new'].astype('str')
+jongang_isbn['author'] = jongang_isbn['author'] + jongang_isbn['new']
 
-    for post in result:
-        try:
-            context = post.select_one('ul.desc_list').text
-            con = context.split('\r')
-            df = pd.DataFrame(con)
-            donga_data = donga_data.append(df, ignore_index = True)
+b = jongang_isbn.groupby('title').cumcount()+1
+jongang_isbn['new1'] = b
+jongang_isbn['new1'] = jongang_isbn['new1'].astype('str')
+jongang_isbn['title'] = jongang_isbn['title'] + jongang_isbn['new1']
 
-        except AttributeError as e:
-            print(e)
-            pass
+c = jongang_isbn.groupby('pub').cumcount()+1
+jongang_isbn['new2'] = c
+jongang_isbn['new2'] = jongang_isbn['new2'].astype('str')
+jongang_isbn['pub'] = jongang_isbn['pub'] + jongang_isbn['new2']
+
+lib_table = jongang_isbn[['title','author','pub']]
+lib_pub = jongang_isbn[['pub','repub','pub_year','pub_month','pub_day']]
+lib_sa = jongang_isbn[['author','ebook','price','SUBJECT']]
+lib_info = jongang_isbn[['title','isbn','isbn_add_code']]
+
+
+engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
     
-    donga_data['date'] = str(date)
-    print(donga_data)
-    donga_new(donga_data)
-    return donga_data
-    
+con = pymysql.connect(host='localhost',
+                        port=3306,
+                        user='root',
+                        password='lgg032800',
+                        db='project2',
+                        charset='utf8')
 
-donga(20221021)
+lib_table.to_sql('lib_table',if_exists = 'append', con = engine)
+con.commit()
 
-# if __name__ == '__main__':
+lib_pub.to_sql('lib_pub',if_exists = 'append', con = engine)
+con.commit()
 
-#     for i in range(7133, 8361):
-#             print(i)
-#             a = datetime.datetime(2000, 1, 1) + datetime.timedelta(days= i - 1)
-#             donga(a.strftime("%Y%m%d"))
+lib_sa.to_sql('lib_sa',if_exists = 'append', con = engine)
+con.commit()
 
-# a = datetime.datetime(2000, 1, 1) + datetime.timedelta(days= 1 - 1)
-# donga(a.strftime("%Y%m%d"))
+lib_info.to_sql('lib_info',if_exists = 'append', con = engine)
+con.commit()

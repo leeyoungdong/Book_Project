@@ -4,8 +4,8 @@ import re
 import datetime
 import pymysql
 from sqlalchemy import create_engine
-from book_eda import ip_grade, ip_m_info, ip_sales, ip_y_info, kyobo_dup
-from book_columns import 
+from book_eda import *
+from book_columns import *
 
 #db connect
 def connet():
@@ -44,22 +44,102 @@ yes24_day(2020-12-31)/week(2020125)/year(202012)
 column - 0 / index /b_rank / context / rewiew / auther /r_date
 """
 
-def db_to_df(table ,column, year, month, day, eda ,col):
+def db_df_day(table ,column, year, month, day, eda ,col):
 
     con = connet()
     cursor = con.cursor()
-# project.  ---- db 이름
+    # project.  ---- db 이름
     sql = f"""select * from project.{table}
               where {column} like '%{year}%%{month}%%{day}%'"""
     cursor = con.cursor()
     cursor.execute(sql)
     result = cursor.fetchall()
-    #joongang_col = ['z','index','context','date']
-    print(result)
+
     a = pd.DataFrame(result, columns = [col])
-    a = a.drop(['z'], axis= 1)
-    
-    eda(a)
-    print(a)
+    a = a.drop(['0'], axis= 1)
+    a = a.drop(['index'], axis= 1)      
+
     return eda(a)
  
+def interpark_year( year,  eda ,col):
+
+    con = connet()
+    cursor = con.cursor()
+    # project.  ---- db 이름
+    sql  =  f"""select * FROM project.interpark_year_grade x
+                left outer join project.interpark_year_info y 
+                on x.`date` = y.`date` 
+                left outer join project.interpark_year_sales z 
+                on x.`date` = z.`date` 
+                and z.`date` = '{year}'                
+                where x.21 = y.187 
+                and y.187 = z.319;
+                """
+    cursor = con.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+
+    a = pd.DataFrame(result, columns = [col])
+    a = a.drop(['0'], axis= 1)
+    a = a.drop(['index'], axis= 1)
+    a = a.drop(['date'], axis = 1)
+    a['date'] = str(year)  
+    
+    return eda(a)
+
+def interpark_month( year, month ,eda ,col):
+
+    con = connet()
+    cursor = con.cursor()
+    # if :
+    # project.  ---- db 이름
+    sql  =  f"""select * FROM project.interpark_month_grade x
+                left outer join project.interpark_month_info y 
+                on x.`date` = y.`date` 
+                left outer join project.interpark_month_sales z 
+                on x.`date` = z.`date` 
+                and z.`date` = '{year}{month}'
+                where x.21 = y.188 
+                and y.188 = z.319;
+                """
+    cursor = con.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+
+    a = pd.DataFrame(result, columns = [col])
+    a = a.drop(['0'], axis= 1)
+    a = a.drop(['index'], axis= 1)
+    a = a.drop(['date'], axis = 1)
+    a['date'] = str(year)  
+
+    return eda(a)
+##### columns name 
+# yes24 eda - b_rank context review auther r_date publisher buplication - 7개
+# kb eda columns - 단위 기간 카테고리 순위 제목 저자 출판사 출판연도 평점 리뷰개수 10개
+# inter_y - rewview accuCnt aggrCnt author category title ProdNo rank 구매력? date 10개
+# inter_m - rewview accuCnt aggrCnt author category title ProdNo rank 구매력? date 10개
+
+def sep_df_to_db(data):
+  base_data = pd.DataFrame(data)
+  book_table = pd.DataFrame()
+  period = pd.DataFrame()
+  information = pd.DataFrame() 
+  reputation = pd.DataFrame()
+
+
+#   if len(data.columns) < 9:
+    
+    
+#     base_data[]
+    
+
+#   elif data[0] == '단위':
+
+#   else:
+
+
+# print(db_df_day('yes24_year','r_date','2022','10','',yes_def, yes_year)) # yes24 clear
+# print(db_df_day('kb_monthly','기간','2022','1','',kyobo_dup, kb_month)) # kb clear
+# print(interpark_year( '2021', ip_year_total, interpark_y_t)) # inter park clear
+# print(interpark_month('2021','05',ip_month_total, interpark_m_t).columns) # inter park clear
+print(aladin())

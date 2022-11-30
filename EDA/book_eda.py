@@ -69,12 +69,77 @@ def ip_sales(df):
     
     return df
 
+def ip_year_total(df):
+    df.columns = ['21','30','3','5','15','51','186','187','rank','315','319','date'] 
+    df = df.rename(columns={'21': '0', '30': 'review','3': 'accuCnt', '5': 'aggrCnt', '15': 'author', '51': 'category', '186': 'title', '187': 'ProdNo','315': '구매력?', '319': '0'})
+        # df['ProdNo'] = df['ProdNo'].apply(lambda x: x['ProdNo'].str.replace('\\',''), axis = 1)
+    df['구매력?'] = df['구매력?'].str.replace(',','').astype(np.int64)
+    df = df.drop_duplicates(keep = 'first')
+    df.author = df.author.str.replace('\\','')
+    df.author = df.author.str.replace('/','')
+    df.category = df.category.str.replace('\\','')
+    df.category = df.category.str.replace('/','')
+    df['accuCnt'] = df['accuCnt'].str.replace(',','').astype(np.int64)
+    df['aggrCnt'] = df['aggrCnt'].str.replace(',','').astype(np.int64)
+    df.author = df.author.str.replace("'", "")
+    df.author = df.author.str.replace('"', '')
+    df.category = df.category.str.replace("'", "")
+    df.title = df.title.str.replace("'", "")
+    df.title = df.title.str.replace('"', '')
+    df.title = df.title.str.replace('\\','')
+    df.title = df.title.str.replace(' ','')
+    df.ProdNo = df.ProdNo.str.replace('\\','')
+    # df['ProdNo'] = df['ProdNo'].apply(lambda x: x['ProdNo'].str.replace('\\',''), axis = 1)
+    df.ProdNo = df.ProdNo.str.replace(' ','')
+    # df['ProdNo'] = df['ProdNo'].apply(lambda x: x['ProdNo'].str.replace(' ',''), axis = 1)    
+    df = df.drop_duplicates(keep = 'first') # 27975 - 1530 = 26445
+    # df = df.rename(columns={'21': 'ProdNo', '30': 'review'})
+    df['review'] = df['review'].str.replace(',','').astype(np.float64)
+    df = df.drop_duplicates(keep = 'first')
+    df = df.drop(['0'], axis= 1)    
+    
+    return df
+
+
+def ip_month_total(df):
+    df.columns = ['21','30','3','5','15','51','187','188','rank','315','319','date'] 
+    df = df.rename(columns={'21': '0', '30': 'review','3': 'accuCnt', '5': 'aggrCnt', '15': 'author', '51': 'category', '187': 'title', '188': 'ProdNo','315': '구매력?', '319': '0'})
+        # df['ProdNo'] = df['ProdNo'].apply(lambda x: x['ProdNo'].str.replace('\\',''), axis = 1)
+    df['구매력?'] = df['구매력?'].str.replace(',','').astype(np.int64)
+    df = df.drop_duplicates(keep = 'first')
+    df.author = df.author.str.replace('\\','')
+    df.author = df.author.str.replace('/','')
+    df.category = df.category.str.replace('\\','')
+    df.category = df.category.str.replace('/','')
+    df['accuCnt'] = df['accuCnt'].str.replace(',','').astype(np.int64)
+    df['aggrCnt'] = df['aggrCnt'].str.replace(',','').astype(np.int64)
+    df.author = df.author.str.replace("'", "")
+    df.author = df.author.str.replace('"', '')
+    df.category = df.category.str.replace("'", "")
+    df.title = df.title.str.replace("'", "")
+    df.title = df.title.str.replace('"', '')
+    df.title = df.title.str.replace('\\','')
+    df.title = df.title.str.replace(' ','')
+    df.ProdNo = df.ProdNo.str.replace('\\','')
+    # df['ProdNo'] = df['ProdNo'].apply(lambda x: x['ProdNo'].str.replace('\\',''), axis = 1)
+    df.ProdNo = df.ProdNo.str.replace(' ','')
+    # df['ProdNo'] = df['ProdNo'].apply(lambda x: x['ProdNo'].str.replace(' ',''), axis = 1)    
+    df = df.drop_duplicates(keep = 'first') # 27975 - 1530 = 26445
+    df = df.rename(columns={'21': 'ProdNo', '30': 'review'})
+    df['review'] = df['review'].str.replace(',','').astype(np.float64)
+    df = df.drop_duplicates(keep = 'first')
+    df = df.drop(['0'], axis= 1)    
+    
+    return df
+
 def kyobo_dup(df):
+    df.columns =  ['단위','기간', '카테고리','순위', '제목','저자', '출판사', '출판연도', '평점', '리뷰개수']
     df = df.drop_duplicates(subset = ['기간', '순위', '제목']) # keep = 'first' by default
 
     return df 
 
 def yes_def(yes_year):
+    yes_year.columns = ['b_rank', 'context', 'review','auther', 'r_date']
     yes_year = yes_year.replace(r'\n','', regex=True)
     yes_year['context'] = yes_year['context'].replace(r'\r','', regex=True)
     yes_year['review'] = yes_year['review'].replace(r'\r','', regex=True)
@@ -84,3 +149,9 @@ def yes_def(yes_year):
     yes_year['publisher'] = yes_year['publisher'].replace(' ','', regex=True)
     yes_year['context'] = yes_year['context'].str.slice(4)
     return yes_year
+
+
+def aladin(df):
+    df.drop_duplicates(inplace=True)
+    df = df.dropna()
+    return df
