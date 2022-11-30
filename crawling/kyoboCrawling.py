@@ -82,8 +82,9 @@ def kyobo_year(year):
     engine = create_engine("mysql+pymysql://root:0000@localhost/kyobobook", encoding= 'utf-8')
     conn = engine.connect()
    
-
-    response = requests.get(f'https://product.kyobobook.co.kr/api/gw/pub/pdt/best-seller/total?page=1&per=200&period=004&ymw={year}&bsslBksClstCode=A').json()
+    syear = str(year)
+    unit_period =syear
+    response = requests.get(f'https://product.kyobobook.co.kr/api/gw/pub/pdt/best-seller/total?page=1&per=200&period=004&ymw={unit_period}&bsslBksClstCode=A').json()
     for k in range(0, 200):
         rank = k
         try:
@@ -96,7 +97,7 @@ def kyobo_year(year):
         published_year = response['data']['bestSeller'][k]['rlseDate']
         review_score = response['data']['bestSeller'][k]['buyRevwRvgr']
         review_num = response['data']['bestSeller'][k]['buyRevwNumc']
-        temp_df = pd.DataFrame({ '기간' : year, '카테고리' : category, '순위' : rank, '제목' : title, '저자' : author, '출판사' : publishor,'출판연도' : published_year, '평점' : review_score, '리뷰개수' : review_num}, index=[0])
+        temp_df = pd.DataFrame({ '기간' : unit_period, '카테고리' : category, '순위' : rank, '제목' : title, '저자' : author, '출판사' : publishor,'출판연도' : published_year, '평점' : review_score, '리뷰개수' : review_num}, index=[0])
         df= pd.concat([df,temp_df])
 
         df = df.drop_duplicates()
@@ -159,8 +160,7 @@ def kyobo_year(year):
 
 if __name__ == '__main__':
     #period num은 위의 데이터 참고 002: 주간 003: 월간 004 : 연간
-    for period_num in period_nums:
-        unit_dicision(period_num)
+
 
 
 
