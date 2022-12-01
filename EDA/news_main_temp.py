@@ -16,10 +16,9 @@ okt = Okt()
 #C:\Users\kreuz\Downloads\data\data
 # chosun = pd.read_csv('C:/Users/youngdong/Desktop/data/chosun_news_202211211723.csv')
 donga = pd.read_csv('C:/Users/kreuz/Downloads/data/data/donga_news_202211221448.csv')
-hani = pd.read_csv('C:/Users/kreuz/Downloads/data/data/hani_news_202211262344.csv')
-
-#print(donga)
-#print(donga.index.tolist())
+joongang = pd.read_csv('C:/Users/kreuz/Downloads/data/data/joongang_news1_202211212130.csv')
+#joongang_news_202211212130
+#print(donga_new(donga))
 def df_to_db(df, table):
     con = pymysql.connect(host='localhost',
                         port=3306,
@@ -70,7 +69,8 @@ def df_sep(df, table):
     news_table = pd.DataFrame()
     CONTEXT = pd.DataFrame()
     # base = base.apply(lambda x: index_key(x['company'],c), axis =1)
-    base['index'] = base['index'] + base.index.tolist()
+    #base = base.reset_index()
+    base['index'] = base.index
     base['index'] = base['index'].astype(str)
     #base['index'] = base['company'].apply(lambda x: index_key(x['company']))
     base['date'] = pd.to_datetime(base['date'])
@@ -88,6 +88,7 @@ def df_sep(df, table):
     news_table['index']= base['index']
     base['title_nouns']= base['title'].apply(lambda x: get_nouns(x))
     CONTEXT['context']=base['title']
+    CONTEXT['news_publisher']= base['company']
     #CONTEXT['word_one'] = base['title_nouns']
     base['title_noun_text']=  base['title_nouns'].apply(lambda x : listEmpty(x))
     CONTEXT['word_one']= base['title_noun_text']
@@ -96,8 +97,15 @@ def df_sep(df, table):
     else:
         CONTEXT['category']= " "
     print(DATE)
-    #df_to_db(CONTEXT, 'CONTEXT')
-    #df_to_db(DATE, 'DATE')
-    #df_to_db(news_table, 'news_table')    
+    df_to_db(CONTEXT, 'CONTEXT')
+    df_to_db(DATE, 'DATE')
+    df_to_db(news_table, 'news_table')
+    
+def dropNull(df):
+    df = df.dropna(subset=['title'])
+    return df
 
-df_sep(donga_new(donga), 'donga_news')
+#df = dropNull(donga_new(donga))
+#df_sep(df, 'donga_news')
+df = dropNull(joongang_new(joongang))
+df_sep(df, 'joongang_news')

@@ -5,7 +5,7 @@ import urllib.request
 import requests
 import json
 period_nums = ['002', '003', '004']
-
+#002 : 주간 003 :월간 004 :연간
 def kyobo_week(year, month, week ):
 
     unit_size = '주간'
