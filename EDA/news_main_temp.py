@@ -16,7 +16,11 @@ okt = Okt()
 #C:\Users\kreuz\Downloads\data\data
 # chosun = pd.read_csv('C:/Users/youngdong/Desktop/data/chosun_news_202211211723.csv')
 donga = pd.read_csv('C:/Users/kreuz/Downloads/data/data/donga_news_202211221448.csv')
-joongang = pd.read_csv('C:/Users/kreuz/Downloads/data/data/joongang_news1_202211212130.csv')
+joongang = pd.read_csv('C:/Users/kreuz/Downloads/data/data/joongang_news_202211212130.csv')
+chosun = pd.read_csv('C:/Users/kreuz/Downloads/data/data/chosun_news_202211211723.csv')
+khan = pd.read_csv('C:/Users/kreuz/Downloads/data/data/khan_news_202211221449.csv')
+hani = pd.read_csv('C:/Users/kreuz/Downloads/data/data/hani_news_202211262344.csv')
+
 #joongang_news_202211212130
 #print(donga_new(donga))
 def df_to_db(df, table):
@@ -96,7 +100,7 @@ def df_sep(df, table):
         CONTEXT['category']= base['category']
     else:
         CONTEXT['category']= " "
-    print(DATE)
+    print(CONTEXT)
     df_to_db(CONTEXT, 'CONTEXT')
     df_to_db(DATE, 'DATE')
     df_to_db(news_table, 'news_table')
@@ -107,5 +111,19 @@ def dropNull(df):
 
 #df = dropNull(donga_new(donga))
 #df_sep(df, 'donga_news')
-df = dropNull(joongang_new(joongang))
-df_sep(df, 'joongang_news')
+
+#df = dropNull(joongang_new(joongang))
+#df_sep(df, 'joongang_news')
+
+
+# df = dropNull(chosun_new(chosun))
+# df_sep(df, 'chosun_news')
+
+
+# df = dropNull(hani_new(hani))
+# df_sep(df, 'hani_news')
+
+
+df = dropNull(khan_new(khan))
+df_sep(df, 'khan_news')
+
