@@ -1,14 +1,6 @@
 import pandas as pd
 import numpy as np
 
-# ip_month_grade = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_month_grade_202211250151.csv")
-# ip_month_info = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_month_info_202211250151.csv")
-# ip_month_sales = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_month_sales_202211250151.csv")
-
-# ip_yr_grade = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_year_grade_202211241329.csv")
-# ip_yr_info = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_year_info_202211241329.csv")
-# ip_yr_sales = pd.read_csv(r"C:\Users\maeve\AIB 14\Section6\Codestates Project 2\data\interpark\interpark_year_sales_202211241329.csv")
-
 # grade
 def ip_grade(df):
     df = df.rename(columns={'21': 'ProdNo', '30': 'review'})

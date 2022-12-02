@@ -12,14 +12,15 @@ import konlpy
 from konlpy.tag import Okt
 from konlpy.utils import pprint
 from collections import Counter
+
 okt = Okt()
 #C:\Users\kreuz\Downloads\data\data
 # chosun = pd.read_csv('C:/Users/youngdong/Desktop/data/chosun_news_202211211723.csv')
-donga = pd.read_csv('C:/Users/kreuz/Downloads/data/data/donga_news_202211221448.csv')
-joongang = pd.read_csv('C:/Users/kreuz/Downloads/data/data/joongang_news_202211212130.csv')
-chosun = pd.read_csv('C:/Users/kreuz/Downloads/data/data/chosun_news_202211211723.csv')
-khan = pd.read_csv('C:/Users/kreuz/Downloads/data/data/khan_news_202211221449.csv')
-hani = pd.read_csv('C:/Users/kreuz/Downloads/data/data/hani_news_202211262344.csv')
+# donga = pd.read_csv('C:/Users/kreuz/Downloads/data/data/donga_news_202211221448.csv')
+# joongang = pd.read_csv('C:/Users/kreuz/Downloads/data/data/joongang_news_202211212130.csv')
+# chosun = pd.read_csv('C:/Users/kreuz/Downloads/data/data/chosun_news_202211211723.csv')
+# khan = pd.read_csv('C:/Users/kreuz/Downloads/data/data/khan_news_202211221449.csv')
+# hani = pd.read_csv('C:/Users/kreuz/Downloads/data/data/hani_news_202211262344.csv')
 
 #joongang_news_202211212130
 #print(donga_new(donga))
@@ -27,20 +28,30 @@ def df_to_db(df, table):
     con = pymysql.connect(host='localhost',
                         port=3306,
                         user='root',
-                        password='0000',
+                        password='lgg032800',
                         db='project2',
                         charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:0000@localhost/project2')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
     df.to_sql(f'{table}',if_exists = 'append', con = engine)
     con.commit()
-    con.close()
+    # con.close()
+
+def connet():
+    con = pymysql.connect(host='localhost',
+                        port=3306,
+                        user='root',
+                        password='lgg032800',
+                        db='project2',
+                        charset='utf8')
+    return con
+
 
 def get_nouns(x):
     nouns_tagger = Okt()
     nouns = nouns_tagger.nouns(x)
     #EDA\stopwords.txt
-    with open('EDA\stopwords.txt', 'r', encoding='utf-8') as f:
+    with open('C:/Users/youngdong/Book_Project/eda/stopwords.txt', 'r', encoding='utf-8') as f:
         stopwords = f.readlines()
     stopwords = [x.strip() for x in stopwords]
 
@@ -62,19 +73,19 @@ def listEmpty(x):
 
 def df_sep(df, table):
     DATE =pd.DataFrame()
-    # con = connet()
-    # cursor = con.cursor()
-    # a = f"""select count(*) from project.{table};"""
-    # b = cursor.execute(a)
-    # c = cursor.fetchone()[0]
-    # print(c)
+    con = connet()
+    cursor = con.cursor()
+    a = f"""select count(*) from project2.news_table_daily;"""
+    b = cursor.execute(a)
+    c = cursor.fetchone()[0]
+    print(c)
     base = pd.DataFrame(df)
     base = base.reset_index()
     news_table = pd.DataFrame()
     CONTEXT = pd.DataFrame()
     # base = base.apply(lambda x: index_key(x['company'],c), axis =1)
     #base = base.reset_index()
-    base['index'] = base.index
+    base['index'] = base.index + c
     base['index'] = base['index'].astype(str)
     #base['index'] = base['company'].apply(lambda x: index_key(x['company']))
     base['date'] = pd.to_datetime(base['date'])
@@ -100,17 +111,17 @@ def df_sep(df, table):
         CONTEXT['category']= base['category']
     else:
         CONTEXT['category']= " "
-    print(CONTEXT)
-    df_to_db(CONTEXT, 'CONTEXT')
-    df_to_db(DATE, 'DATE')
-    df_to_db(news_table, 'news_table')
+    print(DATE)
+    df_to_db(CONTEXT, 'context_daily')
+    df_to_db(DATE, 'date_daily')
+    df_to_db(news_table, 'news_table_daily')
     
 def dropNull(df):
     df = df.dropna(subset=['title'])
     return df
 
-#df = dropNull(donga_new(donga))
-#df_sep(df, 'donga_news')
+# df = dropNull(donga_new(donga))
+# df_sep(df, 'donga_news')
 
 #df = dropNull(joongang_new(joongang))
 #df_sep(df, 'joongang_news')
@@ -124,6 +135,8 @@ def dropNull(df):
 # df_sep(df, 'hani_news')
 
 
-df = dropNull(khan_new(khan))
-df_sep(df, 'khan_news')
+# df = dropNull(khan_new(khan))
+# df_sep(df, 'khan_news')
 
+# with open('C:/Users/youngdong/Book_Project/eda/stopwords.txt', 'r', encoding='utf-8') as f:
+#         stopwords = f.readlines()

@@ -111,20 +111,27 @@ def interpark_month( year, month ,eda ,col):
     a = a.drop(['index'], axis= 1)
     a = a.drop(['date'], axis = 1)
     a['date'] = str(year)  
-
+    print(eda(a))
     return eda(a)
+
 ##### columns name 
 # yes24 eda - b_rank context review auther r_date publisher buplication - 7개
 # kb eda columns - 단위 기간 카테고리 순위 제목 저자 출판사 출판연도 평점 리뷰개수 10개
 # inter_y - rewview accuCnt aggrCnt author category title ProdNo rank 구매력? date 10개
 # inter_m - rewview accuCnt aggrCnt author category title ProdNo rank 구매력? date 10개
+# aladin - rank, title, author, publisher, pubDate, description, isbn10 price salesPoint wperiod
 
-def sep_df_to_db(data):
-  base_data = pd.DataFrame(data)
-  book_table = pd.DataFrame()
-  period = pd.DataFrame()
-  information = pd.DataFrame() 
-  reputation = pd.DataFrame()
+# def sep_df_to_db(data):
+#   #input dataframe
+#   base_data = pd.DataFrame(data)
+#   #split table dataframe
+#   book_table = pd.DataFrame()
+#   period = pd.DataFrame()
+#   information = pd.DataFrame() 
+#   reputation = pd.DataFrame()
+
+#   if base_data
+
 
 
 #   if len(data.columns) < 9:
@@ -138,8 +145,8 @@ def sep_df_to_db(data):
 #   else:
 
 
-# print(db_df_day('yes24_year','r_date','2022','10','',yes_def, yes_year)) # yes24 clear
+print(db_df_day('yes24_year','r_date','2022','10','',yes_def, yes_year).columns()) # yes24 clear
 # print(db_df_day('kb_monthly','기간','2022','1','',kyobo_dup, kb_month)) # kb clear
 # print(interpark_year( '2021', ip_year_total, interpark_y_t)) # inter park clear
 # print(interpark_month('2021','05',ip_month_total, interpark_m_t).columns) # inter park clear
-print(aladin())
+# print(aladin())
