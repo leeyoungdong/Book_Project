@@ -7,21 +7,16 @@ from .models import Context, Date, NewsTable
 from django.http import HttpResponse
 from django.db import connection
 
-
-
 def boardmodel(request):
     #contextList = Context.objects.all()
     #context = {'contextLIst': contextList}
     try:
         cursor = connection.cursor()
-
         strSql = "SELECT * FROM date"
         result = cursor.execute(strSql)
         datelist = cursor.fetchall()
-
         connection.commit()
         connection.close()
-
     except:
         connection.rollback()
         print("Failed selecting in BookListView")
