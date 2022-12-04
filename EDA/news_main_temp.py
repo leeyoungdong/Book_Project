@@ -14,16 +14,16 @@ from konlpy.utils import pprint
 from collections import Counter
 
 okt = Okt()
-#C:\Users\kreuz\Downloads\data\data
-# chosun = pd.read_csv('C:/Users/youngdong/Desktop/data/chosun_news_202211211723.csv')
-# donga = pd.read_csv('C:/Users/kreuz/Downloads/data/data/donga_news_202211221448.csv')
-# joongang = pd.read_csv('C:/Users/kreuz/Downloads/data/data/joongang_news_202211212130.csv')
-# chosun = pd.read_csv('C:/Users/kreuz/Downloads/data/data/chosun_news_202211211723.csv')
-# khan = pd.read_csv('C:/Users/kreuz/Downloads/data/data/khan_news_202211221449.csv')
-# hani = pd.read_csv('C:/Users/kreuz/Downloads/data/data/hani_news_202211262344.csv')
 
-#joongang_news_202211212130
-#print(donga_new(donga))
+"""
+date 칼럼 format
+조 2000-20-20 date
+중 2020.20.20 00:00 date
+동 20002020 date
+경 20202020 date
+한 등록 :2020-20-20 00: pdage
+"""
+
 def df_to_db(df, table):
     con = pymysql.connect(host='localhost',
                         port=3306,
@@ -120,23 +120,22 @@ def dropNull(df):
     df = df.dropna(subset=['title'])
     return df
 
-# df = dropNull(donga_new(donga))
-# df_sep(df, 'donga_news')
+if __name__ == "__main__":
 
-#df = dropNull(joongang_new(joongang))
-#df_sep(df, 'joongang_news')
+    # df = dropNull(donga_new(donga))
+    # df_sep(df, 'donga_news')
 
-
-# df = dropNull(chosun_new(chosun))
-# df_sep(df, 'chosun_news')
+    #df = dropNull(joongang_new(joongang))
+    #df_sep(df, 'joongang_news')
 
 
-# df = dropNull(hani_new(hani))
-# df_sep(df, 'hani_news')
+    # df = dropNull(chosun_new(chosun))
+    # df_sep(df, 'chosun_news')
 
 
-# df = dropNull(khan_new(khan))
-# df_sep(df, 'khan_news')
+    # df = dropNull(hani_new(hani))
+    # df_sep(df, 'hani_news')
 
-# with open('C:/Users/youngdong/Book_Project/eda/stopwords.txt', 'r', encoding='utf-8') as f:
-#         stopwords = f.readlines()
+
+    # df = dropNull(khan_new(khan))
+    # df_sep(df, 'khan_news')

@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from book_eda import *
 from book_columns import *
 
-#db connect ########### airflow 올릴떄 바꾸기
+### connect - 불러올때
 def connet():
     con = pymysql.connect(host='localhost',
                         port=3306,
@@ -16,23 +16,7 @@ def connet():
                         db='project',
                         charset='utf8')
     return con
-########### airflow 올릴떄 바꾸기
-
-
-def base_frame():
-
-    period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
-
-    book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
-
-    information = pd.DataFrame(index=range(0),columns = ['title','context','category','isbn','publisher'])
-
-    reputation = pd.DataFrame(index=range(0),columns = ['itemkey','rank','review_num','review_rate','portal'])
-
-    buyc = pd.DataFrame(index=range(0),columns = ['portal','accucnt','aggrcnt','price','sales'])
-
-
-
+########### db 에 넣을때
 
 def df_to_db(period, book_table, information, reputation, buyc):
 
@@ -40,10 +24,10 @@ def df_to_db(period, book_table, information, reputation, buyc):
                             port=3306,
                             user='root',
                             password='lgg032800',
-                            db='project2',
+                            db='project3',
                             charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project3')
 
     period.to_sql('period',if_exists = 'append', con = engine)
     con.commit()
@@ -62,7 +46,7 @@ def df_to_db(period, book_table, information, reputation, buyc):
 
 
 """
-데이터에 적재 되어있는 Table 
+데이터에 적재 되어있는 Table columns
 interpark_month_grade/info/sales
 column - 0 / index/ 21 / 30 /date - 0 / index / 3 /5 /15 /51 /186/187/date/rank - 0 / index /315 /319 /date
 interpark_year_grade/info/sales(2020)
@@ -182,25 +166,15 @@ def db_df_year(table ,column, year,eda ,col):
 
 
 
-##### columns name 
+""" columns name eda end
 # yes24 eda - b_rank context review auther r_date publisher buplication - 7개
 # kb eda columns - 단위 기간 카테고리 순위 제목 저자 출판사 출판연도 평점 리뷰개수 10개
 # inter_y - rewview accuCnt aggrCnt author category title ProdNo rank 구매력? date 10개
 # inter_m - rewview accuCnt aggrCnt author category title ProdNo rank 구매력? date 10개
 # aladin - rank, title, author, publisher, pubDate, description, isbn10 price salesPoint wperiod
-
+"""
 
 
 
 if __name__ == "__main__":
-    # df = dropNull(khan_new(khan))
-    # df_sep(df, 'khan_news')
-
-    df = dropNull()
-
-
-    # print(db_df_day('yes24_year','r_date','2022','10','',yes_def, yes_year).columns()) # yes24 clear
-    # print(db_df_day('kb_monthly','기간','2022','1','',kyobo_dup, kb_month)) # kb clear
-    # print(interpark_year( '2021', ip_year_total, interpark_y_t)) # inter park clear
-    # print(interpark_month('2021','05',ip_month_total, interpark_m_t).columns) # inter park clear
-    # print(aladin())   
+    print('ok')
