@@ -94,10 +94,15 @@ def ip_year_total(df):
 
 
 def ip_month_total(df):
+    # print(df)
+    # df.columns = ['review','accuCnt','aggrCnt','author','category','title','ProdNo','rank', '구매력?',  'date'] 
     df.columns = ['21','30','3','5','15','51','187','188','rank','315','319','date'] 
+    # df.columns = [ '0', 'review','accuCnt', 'aggrCnt',  'author','category','title', 'rank', 'ProdNo', '구매력?',  '0','date']
     df = df.rename(columns={'21': '0', '30': 'review','3': 'accuCnt', '5': 'aggrCnt', '15': 'author', '51': 'category', '187': 'title', '188': 'ProdNo','315': '구매력?', '319': '0'})
         # df['ProdNo'] = df['ProdNo'].apply(lambda x: x['ProdNo'].str.replace('\\',''), axis = 1)
-    df['구매력?'] = df['구매력?'].str.replace(',','').astype(np.int64)
+    # df['구매력?'] = df['구매력?'].str.replace(',','').astype(np.int64)
+    df = df.drop(['0'], axis= 1) 
+    # print(df)
     df = df.drop_duplicates(keep = 'first')
     df.author = df.author.str.replace('\\','')
     df.author = df.author.str.replace('/','')
@@ -120,8 +125,8 @@ def ip_month_total(df):
     df = df.rename(columns={'21': 'ProdNo', '30': 'review'})
     df['review'] = df['review'].str.replace(',','').astype(np.float64)
     df = df.drop_duplicates(keep = 'first')
-    df = df.drop(['0'], axis= 1)    
-    
+    # df = df.drop(['0'], axis= 1)    
+    # print(df)
     return df
 
 def kyobo_dup(df):
@@ -132,6 +137,7 @@ def kyobo_dup(df):
 
 def yes_def(yes_year):
     yes_year.columns = ['b_rank', 'context', 'review','auther', 'r_date']
+    print(yes_year)
     yes_year = yes_year.replace(r'\n','', regex=True)
     yes_year['context'] = yes_year['context'].replace(r'\r','', regex=True)
     yes_year['review'] = yes_year['review'].replace(r'\r','', regex=True)
@@ -143,7 +149,7 @@ def yes_def(yes_year):
     return yes_year
 
 
-def aladin(df):
+def aladina(df):
     df.drop_duplicates(inplace=True)
     df = df.dropna()
     return df

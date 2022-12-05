@@ -42,7 +42,7 @@ def connet():
                         port=3306,
                         user='root',
                         password='lgg032800',
-                        db='project2',
+                        db='project3',
                         charset='utf8')
     return con
 
@@ -125,8 +125,8 @@ if __name__ == "__main__":
     # df = dropNull(donga_new(donga))
     # df_sep(df, 'donga_news')
 
-    #df = dropNull(joongang_new(joongang))
-    #df_sep(df, 'joongang_news')
+    # df = dropNull(joongang_new(joongang))
+    # df_sep(df, 'joongang_news')
 
 
     # df = dropNull(chosun_new(chosun))
@@ -139,3 +139,4 @@ if __name__ == "__main__":
 
     # df = dropNull(khan_new(khan))
     # df_sep(df, 'khan_news')
+    print('c')

@@ -85,7 +85,7 @@ def chosun_new(chosun):
 def khan_new(df):
     df.columns = ['index','context','date']
     df = df.drop_duplicates(['context'])
-
+    
     df_result = pd.DataFrame()
     
     for i in hani_stoplist:

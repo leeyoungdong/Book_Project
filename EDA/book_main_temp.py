@@ -28,12 +28,12 @@ def kb_m(df):
 
 
     kb_m = pd.DataFrame(df)
-    kb_m = pd.DataFrame(kyobo_dup(kb_m))
+    kb_m = pd.DataFrame(kb_m)
 
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
-    kb_m = kb_m.drop('0', axis = 1)
+    # kb_m = kb_m.drop('0', axis = 1)
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'k'+'m'
@@ -78,31 +78,31 @@ def kb_m(df):
                                 port=3306,
                                 user='root',
                                 password='lgg032800',
-                                db='project4',
+                                db='project2',
                                 charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project4')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
 
-    period.to_sql('period',if_exists = 'append', con = engine)
+    period.to_sql('period_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    book_table.to_sql('book_table',if_exists = 'append', con = engine)
+    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    information.to_sql('information',if_exists = 'append', con = engine)
+    information.to_sql('information_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    reputation.to_sql('reputation',if_exists = 'append', con = engine)
+    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    buyc.to_sql('buyc',if_exists = 'append', con = engine)
+    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
     con.commit()
 
 #################### 교보 주간
 def kb_w(df):
 
     kb_w = pd.DataFrame(df)
-    kb_m = pd.DataFrame(kyobo_dup(kb_w))
+    kb_m = pd.DataFrame(kb_w)
 
 
     period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
@@ -118,7 +118,7 @@ def kb_w(df):
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
-    kb_m = kb_m.drop('0', axis = 1)
+    # kb_m = kb_m.drop('0', axis = 1)
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'k'+ 'w'
@@ -164,31 +164,31 @@ def kb_w(df):
                                 port=3306,
                                 user='root',
                                 password='lgg032800',
-                                db='project4',
+                                db='project2',
                                 charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project4')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
 
-    period.to_sql('period',if_exists = 'append', con = engine)
+    period.to_sql('period_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    book_table.to_sql('book_table',if_exists = 'append', con = engine)
+    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    information.to_sql('information',if_exists = 'append', con = engine)
+    information.to_sql('information_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    reputation.to_sql('reputation',if_exists = 'append', con = engine)
+    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    buyc.to_sql('buyc',if_exists = 'append', con = engine)
+    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
     con.commit()
 
 #####################교보 연간
 def kb_y(df):
 
     kb_y= pd.DataFrame(df)
-    kb_m = pd.DataFrame(kyobo_dup(kb_y))
+    kb_m = pd.DataFrame(kb_y)
 
 
     period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
@@ -204,7 +204,7 @@ def kb_y(df):
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
-    kb_m = kb_m.drop('0', axis = 1)
+    # kb_m = kb_m.drop('0', axis = 1)
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'k'+'y'
@@ -248,31 +248,31 @@ def kb_y(df):
                                 port=3306,
                                 user='root',
                                 password='lgg032800',
-                                db='project4',
+                                db='project2',
                                 charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project4')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
 
-    period.to_sql('period',if_exists = 'append', con = engine)
+    period.to_sql('period_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    book_table.to_sql('book_table',if_exists = 'append', con = engine)
+    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    information.to_sql('information',if_exists = 'append', con = engine)
+    information.to_sql('information_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    reputation.to_sql('reputation',if_exists = 'append', con = engine)
+    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    buyc.to_sql('buyc',if_exists = 'append', con = engine)
+    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
     con.commit()
 
 ######################yes24 일간
 def yes_d(df):
 
     yes_d = pd.DataFrame(df)
-    kb_m = pd.DataFrame(yes_def(yes_d))
+    kb_m = pd.DataFrame(yes_d)
 
     period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
 
@@ -286,7 +286,7 @@ def yes_d(df):
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
-    kb_m = kb_m.drop('0', axis = 1)
+    # kb_m = kb_m.drop('0', axis = 1)
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'y'+'d'
@@ -330,31 +330,31 @@ def yes_d(df):
                                 port=3306,
                                 user='root',
                                 password='lgg032800',
-                                db='project4',
+                                db='project2',
                                 charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project4')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
 
-    period.to_sql('period',if_exists = 'append', con = engine)
+    period.to_sql('period_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    book_table.to_sql('book_table',if_exists = 'append', con = engine)
+    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    information.to_sql('information',if_exists = 'append', con = engine)
+    information.to_sql('information_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    reputation.to_sql('reputation',if_exists = 'append', con = engine)
+    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    buyc.to_sql('buyc',if_exists = 'append', con = engine)
+    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
     con.commit()
 
 ######################yes24 월간
 def yes_m(df):
 
     yes_m = pd.DataFrame(df)
-    kb_m = pd.DataFrame(yes_def(yes_m))
+    kb_m = pd.DataFrame(yes_m)
 
 
     period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
@@ -370,7 +370,7 @@ def yes_m(df):
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
-    kb_m = kb_m.drop('0', axis = 1)
+    # kb_m = kb_m.drop('0', axis = 1)
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'y'+'m'
@@ -382,7 +382,7 @@ def yes_m(df):
     kb_m['context'] = dup_count(kb_m, 'context')
     kb_m['context'] = kb_m['context'].astype('str')
     kb_m['context'] = kb_m['context'] + kb_m['index']
-    print(kb_m.columns)
+    print(kb_m)
 
     kb_m['r_date'] = kb_m['r_date'].astype('str')
     kb_m['r_date'] = kb_m['r_date']+'y' + 'm'
@@ -413,31 +413,31 @@ def yes_m(df):
                                 port=3306,
                                 user='root',
                                 password='lgg032800',
-                                db='project4',
+                                db='project2',
                                 charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project4')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
 
-    period.to_sql('period',if_exists = 'append', con = engine)
+    period.to_sql('period_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    book_table.to_sql('book_table',if_exists = 'append', con = engine)
+    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    information.to_sql('information',if_exists = 'append', con = engine)
+    information.to_sql('information_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    reputation.to_sql('reputation',if_exists = 'append', con = engine)
+    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    buyc.to_sql('buyc',if_exists = 'append', con = engine)
+    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
     con.commit()
 
 ######################yes24 월간
 def yes_y(df):
 
     yes_y = pd.DataFrame(df)
-    kb_m = pd.DataFrame(yes_def(yes_y))
+    kb_m = pd.DataFrame(yes_y)
 
 
     period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
@@ -453,7 +453,7 @@ def yes_y(df):
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
-    kb_m = kb_m.drop('0', axis = 1)
+    # kb_m = kb_m.drop('0', axis = 1)
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'y'+'y'
@@ -495,31 +495,31 @@ def yes_y(df):
                                 port=3306,
                                 user='root',
                                 password='lgg032800',
-                                db='project4',
+                                db='project2',
                                 charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project4')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
 
-    period.to_sql('period',if_exists = 'append', con = engine)
+    period.to_sql('period_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    book_table.to_sql('book_table',if_exists = 'append', con = engine)
+    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    information.to_sql('information',if_exists = 'append', con = engine)
+    information.to_sql('information_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    reputation.to_sql('reputation',if_exists = 'append', con = engine)
+    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    buyc.to_sql('buyc',if_exists = 'append', con = engine)
+    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
     con.commit()
 
 ###################### 인터파크 연간
 def inter_y(df):
 
     inter_y = pd.DataFrame(df)
-    kb_m = pd.DataFrame(ip_month_total(inter_y))
+    kb_m = pd.DataFrame(inter_y)
 
 
     period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
@@ -535,7 +535,7 @@ def inter_y(df):
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
-    kb_m = kb_m.drop('0', axis = 1)
+    # kb_m = kb_m.drop('0', axis = 1)
     kb_m = kb_m.reset_index()
 
     kb_m['index'] = kb_m['index'].astype('str')
@@ -577,31 +577,31 @@ def inter_y(df):
                                 port=3306,
                                 user='root',
                                 password='lgg032800',
-                                db='project4',
+                                db='project2',
                                 charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project4')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
 
-    period.to_sql('period',if_exists = 'append', con = engine)
+    period.to_sql('period_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    book_table.to_sql('book_table',if_exists = 'append', con = engine)
+    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    information.to_sql('information',if_exists = 'append', con = engine)
+    information.to_sql('information_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    reputation.to_sql('reputation',if_exists = 'append', con = engine)
+    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    buyc.to_sql('buyc',if_exists = 'append', con = engine)
+    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
     con.commit()
 
 ######################인터파크 월간
 def inter_m(df):
 
     inter_w = pd.DataFrame(df)
-    kb_m = pd.DataFrame(ip_month_total(inter_w))
+    kb_m = pd.DataFrame(inter_w)
 
     period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
 
@@ -615,7 +615,7 @@ def inter_m(df):
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
-    kb_m = kb_m.drop('0', axis = 1)
+    # kb_m = kb_m.drop('0', axis = 1)
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'i'+'m'
@@ -657,31 +657,32 @@ def inter_m(df):
                                 port=3306,
                                 user='root',
                                 password='lgg032800',
-                                db='project4',
+                                db='project2',
                                 charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project4')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
 
-    period.to_sql('period',if_exists = 'append', con = engine)
+    period.to_sql('period_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    book_table.to_sql('book_table',if_exists = 'append', con = engine)
+    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    information.to_sql('information',if_exists = 'append', con = engine)
+    information.to_sql('information_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    reputation.to_sql('reputation',if_exists = 'append', con = engine)
+    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    buyc.to_sql('buyc',if_exists = 'append', con = engine)
+    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
     con.commit()
 
 ###################### 알라딘 주간
 def aladin(df):
 
     aladin = pd.DataFrame(df)
-
+    aladin.columns = ['index','rank','title','author','publisher','pubDate','description','isbn10','price','salesPoint','wperiod']
+    print(aladin)
     period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
 
     book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
@@ -740,25 +741,25 @@ def aladin(df):
                             port=3306,
                             user='root',
                             password='lgg032800',
-                            db='project4',
+                            db='project2',
                             charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project4')
+    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
 
 
-    period.to_sql('period',if_exists = 'append', con = engine)
+    period.to_sql('period_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    book_table.to_sql('book_table',if_exists = 'append', con = engine)
+    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    information.to_sql('information',if_exists = 'append', con = engine)
+    information.to_sql('information_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    reputation.to_sql('reputation',if_exists = 'append', con = engine)
+    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
     con.commit()
 
-    buyc.to_sql('buyc',if_exists = 'append', con = engine)
+    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
     con.commit()
 
 
