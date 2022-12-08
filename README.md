@@ -15,10 +15,10 @@
 # 데이터 파이프라인
 
 # 데이터
-Data Lake 데이터
+# Data Lake 데이터
 Historical Data
 ![image](https://user-images.githubusercontent.com/87170837/206432241-543fc326-cb8e-4fd3-a4bf-d18804cc7bdc.png)
 
-Data Warehouse 데이터
+# Data Warehouse 데이터
 Historical Data
 ![image](https://user-images.githubusercontent.com/87170837/206432283-2acd02c2-2594-4883-90ad-e21b832aeb10.png)
