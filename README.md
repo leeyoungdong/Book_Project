@@ -18,11 +18,7 @@
 Data Lake 데이터
 Historical Data
 ![image](https://user-images.githubusercontent.com/87170837/206432241-543fc326-cb8e-4fd3-a4bf-d18804cc7bdc.png)
-Recent Data
-![image](https://user-images.githubusercontent.com/87170837/206432252-393fa343-159c-4ad1-a494-e4057b9d63fa.png)
 
 Data Warehouse 데이터
 Historical Data
 ![image](https://user-images.githubusercontent.com/87170837/206432283-2acd02c2-2594-4883-90ad-e21b832aeb10.png)
-Recent Data
-![image](https://user-images.githubusercontent.com/87170837/206432271-a3ac2e82-0018-48c9-87b2-467dc4d3959d.png)
