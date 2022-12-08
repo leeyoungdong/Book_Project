@@ -54,8 +54,8 @@ Historical Data
 
 # 프로젝트 결과
 # BI
-  <iframe width="956" height="538" src="https://public.tableau.com/shared/7N343HKXK?:display_count=n&:origin=viz_share_link:showVizHome=no&amp;:embed=true" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <iframe src="https://public.tableau.com/shared/7N343HKXK?:display_count=n&:origin=viz_share_link:showVizHome=no&amp;:embed=true" width="1024" height="768"></iframe>
+<iframe src="https://public.tableau.com/shared/7N343HKXK?:display_count=n&:origin=viz_share_link:showVizHome=no&:embed=true" width="1024" height="768"></iframe>  
+  
 # AIRFLOW
   
 # GRAFANA
