@@ -72,12 +72,8 @@ Historical Data
 # 프로젝트 결과
 # BI
 
-<script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+[#자세히 보기](https://public.tableau.com/shared/7N343HKXK?:display_count=n&:origin=viz_share_link)
 
-
-<tableau-viz id="tableauViz"       
-  src='https://public.tableau.com/shared/7N343HKXK?:display_count=n&:origin=viz_share_link'>
-</tableau-viz>
 
 # AIRFLOW
   
