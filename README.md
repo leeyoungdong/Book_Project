@@ -54,7 +54,7 @@ Historical Data
 
 # 프로젝트 결과
 # BI
-<iframe src="https://public.tableau.com/shared/7N343HKXK?:display_count=n&:origin=viz_share_link:showVizHome=no&:embed=true" width="1024" height="768"></iframe>  
+<p><iframe src="https://public.tableau.com/shared/7N343HKXK?:display_count=n&:origin=viz_share_link:showVizHome=no&:embed=true" width="1024" height="768"></iframe></p>  
   
 # AIRFLOW
   
