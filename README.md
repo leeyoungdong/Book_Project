@@ -12,15 +12,17 @@
 # 기술 스택
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/Apache Airflow-017CEE?style=for-the-badge&logo=Apache Airflow&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"> <img src="https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=Tableau&logoColor=white">
 
-# 데이터 파이프라인
+# 데이터 파이프라인 (ELT)
 ![image](https://user-images.githubusercontent.com/87170837/206433156-b03af7cb-52b3-40e3-865d-bf887af15b67.png)
--
+- 
 -
 -
 -
 -
 
 # 데이터
+# 
+
 # Data Lake
 Historical Data
 ![image](https://user-images.githubusercontent.com/87170837/206432241-543fc326-cb8e-4fd3-a4bf-d18804cc7bdc.png)
