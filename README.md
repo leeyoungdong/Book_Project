@@ -1,7 +1,7 @@
 ## Book_Project
-  ![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=Book%Project&fontSize=90&animation=fadeIn&fontAlignY=38&desc=with_potato's family&descAlignY=51&descAlign=62)
-<p align='right'> 
-</p>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=내용입력&fontSize=90" />
+  ![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=Book_Project&fontSize=90&animation=fadeIn&fontAlignY=38&desc=with_potato's family&descAlignY=51&descAlign=62)
+<p align='right'> </p>
 # 프로젝트 개요.
 
 # 프로젝트의 필요성.
