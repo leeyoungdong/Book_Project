@@ -15,3 +15,14 @@
 # 데이터 파이프라인
 
 # 데이터
+Data Lake 데이터
+Historical Data
+![image](https://user-images.githubusercontent.com/87170837/206432241-543fc326-cb8e-4
+Recent Data
+![image](https://user-images.githubusercontent.com/87170837/206432252-393fa343-159c-4
+
+Data Warehouse 데이터
+Historical Data
+![image](https://user-images.githubusercontent.com/87170837/206432283-2acd02c2-2594-4
+Recent Data
+![image](https://user-images.githubusercontent.com/87170837/206432271-a3ac2e82-0018-4
