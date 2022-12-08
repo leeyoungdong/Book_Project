@@ -53,13 +53,15 @@ Historical Data
 ![image](https://user-images.githubusercontent.com/87170837/206432283-2acd02c2-2594-4883-90ad-e21b832aeb10.png)
 
 # 프로젝트 결과물
-# BI
-![CP2](https://user-images.githubusercontent.com/87170837/206512170-dfcd39cb-c09b-461e-9e16-ecc1027509b9.png)
+# BI(Business Intelligence) [클릭시 자세히 보기]
 
-[#자세히 보기](https://public.tableau.com/app/profile/.10992200/viz/shared/7N343HKXK)
+[![CP2](https://user-images.githubusercontent.com/87170837/206512170-dfcd39cb-c09b-461e-9e16-ecc1027509b9.png)](https://public.tableau.com/app/profile/.10992200/viz/shared/7N343HKXK)
 # DJANGO
 
 # AIRFLOW
+![image](https://user-images.githubusercontent.com/87170837/206512889-c45e8ae0-635f-44ac-b916-a981a3614739.png)
+
+![image](https://user-images.githubusercontent.com/87170837/206513196-47b40a8a-0bec-4a13-82d0-9f4696a75d82.png)
 
 # GRAFANA
 
