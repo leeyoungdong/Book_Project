@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=Book_Project&fontSize=90&animation=fadeIn&fontAlignY=38&desc=with_potato_family!&descAlignY=51&descAlign=62)
+![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=Book_Project&fontSize=90&animation=fadeIn&fontAlignY=38&desc=4gamja+1cook!&descAlignY=51&descAlign=62)
 <p align='center'></p>
 <p align='right'>
 
