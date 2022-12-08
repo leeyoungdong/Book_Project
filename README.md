@@ -21,7 +21,8 @@
 -
 
 # 데이터
-# 
+# 원본 데이터 출처
+![image](https://user-images.githubusercontent.com/87170837/206435229-5c337155-7477-43e0-855c-73ec37e0ce7a.png)
 
 # Data Lake
 Historical Data
