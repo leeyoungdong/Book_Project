@@ -10,8 +10,7 @@ import os
 import re
 from sqlalchemy import create_engine
 import datetime
-
-donga_URL = 'https://www.donga.com/news/Pdf?ymd={}'
+from book_connect import *
 
 def donga(date):
 
@@ -21,6 +20,7 @@ def donga(date):
     soup = bs(response,'html.parser')
     result = soup.select('div.section_txt')
 
+    # 본문내용 크롤링
     for post in result:
         try:
             context = post.select_one('ul.desc_list').text
@@ -28,30 +28,13 @@ def donga(date):
             df = pd.DataFrame(con)
             donga_data = donga_data.append(df, ignore_index = True)
 
-        except AttributeError as e:
+        except AttributeError as e: # 주말 및 공휴일은 뉴스가 없으므로 error발생
             print(e)
             pass
     
     donga_data['date'] = str(date)
-
-    con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='lgg032800',
-                            db='project2',
-                            charset='utf8')
-
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-    donga_data.to_sql('donga_news',if_exists = 'append', con = engine)
-    con.commit()
+    db_process(donga_data, 'donga_news', 'project')
 
 
 if __name__ == '__main__':
-
-    for i in range(7133, 8361):
-            print(i)
-            a = datetime.datetime(2000, 1, 1) + datetime.timedelta(days= i - 1)
-            donga(a.strftime("%Y%m%d"))
-
-# a = datetime.datetime(2000, 1, 1) + datetime.timedelta(days= 1 - 1)
-# donga(a.strftime("%Y%m%d"))
+    donga('yearmonthday') # 입력값 구조 

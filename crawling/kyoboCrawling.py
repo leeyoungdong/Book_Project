@@ -4,8 +4,10 @@ import re
 import urllib.request
 import requests
 import json
+
 period_nums = ['002', '003', '004']
 #002 : 주간 003 :월간 004 :연간
+
 def kyobo_week(year, month, week ):
 
     unit_size = '주간'
@@ -16,17 +18,21 @@ def kyobo_week(year, month, week ):
     category = '종합'
     table_name = 'kyobo_all_week'
     df = pd.DataFrame(columns=[ '기간', '카테고리', '순위', '제목', '저자', '출판사', '출판연도', '평점', '리뷰개수'])
+
     engine = create_engine("mysql+pymysql://root:0000@localhost/kyobobook", encoding= 'utf-8')
     conn = engine.connect()
     unit_period = syear+smonth+sweek
-    print(unit_period)
+
     response = requests.get(f'https://product.kyobobook.co.kr/api/gw/pub/pdt/best-seller/total?page=1&per=200&period=002&ymw={unit_period}&bsslBksClstCode=A').json()
     for k in range(0, 200):
         rank = k
+    
         try:
             rank = response['data']['bestSeller'][k]['prstRnkn']
+    
         except:
             break
+    
         title = response['data']['bestSeller'][k]['cmdtName']
         author = response['data']['bestSeller'][k]['chrcName']
         publishor = response['data']['bestSeller'][k]['pbcmName']
@@ -49,23 +55,29 @@ def kyobo_month(year,month):
     category = '종합'
     table_name = 'kyobo_all_month'
     df = pd.DataFrame(columns=[ '기간', '카테고리', '순위', '제목', '저자', '출판사', '출판연도', '평점', '리뷰개수'])
+
     engine = create_engine("mysql+pymysql://root:0000@localhost/kyobobook", encoding= 'utf-8')
     conn = engine.connect()
     unit_period = syear + smonth
-    print(unit_period)
+
     response = requests.get(f'https://product.kyobobook.co.kr/api/gw/pub/pdt/best-seller/total?page=1&per=200&period=003&ymw={unit_period}&bsslBksClstCode=A').json()
+    
     for k in range(0, 200):
         rank = k
+    
         try:
             rank = response['data']['bestSeller'][k]['prstRnkn']
+    
         except:
             break
+    
         title = response['data']['bestSeller'][k]['cmdtName']
         author = response['data']['bestSeller'][k]['chrcName']
         publishor = response['data']['bestSeller'][k]['pbcmName']
         published_year = response['data']['bestSeller'][k]['rlseDate']
         review_score = response['data']['bestSeller'][k]['buyRevwRvgr']
         review_num = response['data']['bestSeller'][k]['buyRevwNumc']
+
         temp_df = pd.DataFrame({'기간' : unit_period, '카테고리' : category, '순위' : rank, '제목' : title, '저자' : author, '출판사' : publishor,'출판연도' : published_year, '평점' : review_score, '리뷰개수' : review_num}, index=[0])
         df= pd.concat([df,temp_df])
 
@@ -79,18 +91,23 @@ def kyobo_year(year):
     category = '종합'
     table_name = 'kyobo_all_year'
     df = pd.DataFrame(columns=[ '기간', '카테고리', '순위', '제목', '저자', '출판사', '출판연도', '평점', '리뷰개수'])
+
     engine = create_engine("mysql+pymysql://root:0000@localhost/kyobobook", encoding= 'utf-8')
     conn = engine.connect()
    
     syear = str(year)
     unit_period =syear
     response = requests.get(f'https://product.kyobobook.co.kr/api/gw/pub/pdt/best-seller/total?page=1&per=200&period=004&ymw={unit_period}&bsslBksClstCode=A').json()
+    
     for k in range(0, 200):
         rank = k
+    
         try:
             rank = response['data']['bestSeller'][k]['prstRnkn']
+    
         except:
             break
+    
         title = response['data']['bestSeller'][k]['cmdtName']
         author = response['data']['bestSeller'][k]['chrcName']
         publishor = response['data']['bestSeller'][k]['pbcmName']
@@ -160,7 +177,7 @@ def kyobo_year(year):
 
 if __name__ == '__main__':
     #period num은 위의 데이터 참고 002: 주간 003: 월간 004 : 연간
-
+   print('1')
 
 
 

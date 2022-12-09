@@ -10,11 +10,7 @@ import os
 import re
 from sqlalchemy import create_engine
 import datetime
-
-
-yes24_week_url = 'http://www.yes24.com/24/category/bestseller?CategoryNumber=001&sumgb=08&year={}&month={}&week={}&day=1&PageNumber={}' # 주간 week 5개있음음
-yes24_day_url = 'http://www.yes24.com/24/category/bestseller?CategoryNumber=001&sumgb=07&year={}&month={}&day={}&PageNumber={}' # 일간
-yes24_year_url = 'http://www.yes24.com/24/category/bestseller?categorynumber=001&sumgb=09&year={}&month={}&pagenumber={}' # 월간
+from book_connect import *
 
 def yes24_day(year, month, day, page):
     
@@ -25,7 +21,7 @@ def yes24_day(year, month, day, page):
     soup = bs(response, 'html.parser')
     result = soup.select('td.goodsTxtInfo')
     day_date = str(year)+ str(month) + str(day)
-
+    # 본문내용 크롤링
     for i, post in enumerate(result):
       try:
         rank =  soup.select_one(f'#goods{i+1+20*(page-1)}').text
@@ -34,28 +30,15 @@ def yes24_day(year, month, day, page):
         auther = post.select_one('div').text
         df = pd.DataFrame({'rank':rank,'context':context,'review':review,'auther':auther}, index = [0])
         yes24_day_data = pd.concat([yes24_day_data,df])
-      except AttributeError as e:
+
+      except AttributeError as e: # 주말 및 공휴일은 뉴스가 없으므로 error발생
         print(e)
         print(i)
         pass
 
     yes24_day_data['date'] = day_date
-
-    con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='!As36190301',
-                            db='yoyoyo',
-                            charset='utf8')
-
-    engine = create_engine('mysql+pymysql://root:!As36190301@localhost/yoyoyo')
-    yes24_day_data.to_sql('yes24_day',if_exists = 'append', con = engine)
-    con.commit()
-
-
-yes24_week_url = 'http://www.yes24.com/24/category/bestseller?CategoryNumber=001&sumgb=08&year={}&month={}&week={}&day=1&PageNumber={}' # 주간 week 5개있음음
-yes24_day_url = 'http://www.yes24.com/24/category/bestseller?CategoryNumber=001&sumgb=07&year={}&month={}&day={}&PageNumber={}' # 일간
-yes24_year_url = 'http://www.yes24.com/24/category/bestseller?categorynumber=001&sumgb=09&year={}&month={}&pagenumber={}' # 월간
+    db_process(yes24_day_data, 'yes24_day', 'project')
+     
 
 def yes24_week(year, month, week, page):
     
@@ -66,7 +49,7 @@ def yes24_week(year, month, week, page):
     soup = bs(response, 'html.parser')
     result = soup.select('td.goodsTxtInfo')
     week_date = str(year)+ str(month) + str(week)
-
+    # 본문내용 크롤링
     for i, post in enumerate(result):
       try:
         rank =  soup.select_one(f'#goods{i+1+20*(page-1)}').text
@@ -75,24 +58,15 @@ def yes24_week(year, month, week, page):
         auther = post.select_one('div').text
         df = pd.DataFrame({'rank':rank,'context':context,'review':review,'auther':auther}, index = [0])
         yes24_week_data = pd.concat([yes24_week_data,df])
-      except AttributeError as e:
+
+      except AttributeError as e: # 주말 및 공휴일은 뉴스가 없으므로 error발생
         print(e)        
         print(i)
         pass
       
     yes24_week_data['date'] = week_date
-
-    con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='!As36190301',
-                            db='yoyoyo',
-                            charset='utf8')
-
-    engine = create_engine('mysql+pymysql://root:!As36190301@localhost/yoyoyo')
-    yes24_week_data.to_sql('yes24_week',if_exists = 'append', con = engine)
-    con.commit()
-
+    db_process(yes24_week_data, 'yes24_week', 'project')
+    
 
 def yes24_year(year, month, page):
     
@@ -103,7 +77,7 @@ def yes24_year(year, month, page):
     soup = bs(response, 'html.parser')
     result = soup.select('td.goodsTxtInfo')
     year_date = str(year)+ str(month)
-
+    # 본문내용 크롤링
     for i, post in enumerate(result):
       try:
         rank =  soup.select_one(f'#goods{i+1+20*(page-1)}').text
@@ -112,38 +86,19 @@ def yes24_year(year, month, page):
         auther = post.select_one('div').text
         df = pd.DataFrame({'rank':rank,'context':context,'review':review,'auther':auther}, index = [0])
         yes24_year_data = pd.concat([yes24_year_data,df])
-      except AttributeError as e:
+
+      except AttributeError as e: # 주말 및 공휴일은 뉴스가 없으므로 error발생
         print(e)
         print(i)
         pass
 
     yes24_year_data['date'] = year_date
-
-    con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='!As36190301',
-                            db='yoyoyo',
-                            charset='utf8')
-
-    engine = create_engine('mysql+pymysql://root:!As36190301@localhost/yoyoyo')
-    yes24_year_data.to_sql('yes24_year',if_exists = 'append', con = engine)
-    con.commit()
+    db_process(yes24_year_data, 'yes24_year', 'project')
+    
 
 if __name__ == "__main__":
-
-    for i in range(1, 5450):
-
-        a = datetime.datetime(2008, 1, 1) + datetime.timedelta(days= i - 1)
-        print(i,a)
-
-        for k in range(1,11):
-
-          yes24_year(a.strftime("%Y"),a.strftime("%m"),k)
-          yes24_day(a.strftime("%Y"),a.strftime("%m"),a.strftime("%d"),k )
-
-          for j in range(1,6):
-            
-            yes24_week(a.strftime("%Y"),a.strftime("%m"),j,k)       
-
-
+  for i in range(1,10):
+    a = datetime.datetime(2008, 1, 1) + datetime.timedelta(days= i - 1)
+    yes24_year(a.strftime("%Y"),a.strftime("%m"),'page') # 입력값 구조
+    yes24_day(a.strftime("%Y"),a.strftime("%m"),a.strftime("%d"),'page' ) # 입력값 구조
+    yes24_week(a.strftime("%Y"),a.strftime("%m"),'week','page') # 입력값 구조

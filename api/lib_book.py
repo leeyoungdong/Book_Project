@@ -12,9 +12,7 @@ import numpy as np
 import pymysql
 from sqlalchemy import create_engine
 from urllib.request import HTTPError
-from key_value import joongang_lib_key
-
-jongang_lib_url = 'https://www.nl.go.kr/NL/search/openApi/search.do?key={}&apiType=xml&detailSearch=true&category={}&sort=&pageNum={}&pageSize=100'
+from connect import *
 
 def jongang_api(category, page):
 
@@ -24,9 +22,6 @@ def jongang_api(category, page):
     url = jongang_lib_url.format(joongang_lib_key, word, page)
     result = requests.get(url)
     soup = bs(result.text,'lxml-xml')
-    print(result)
-    # print("total book list [%s] " % soup.find('total').text)
-
     get = soup.find_all("item")
 
     for lib in get:
@@ -44,19 +39,8 @@ def jongang_api(category, page):
 
         jongang_data = pd.concat([jongang_data, df])
 
-    con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='lgg032800',
-                            db='project2',
-                            charset='utf8')
-
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-    jongang_data.to_sql('jongang_lib_data',if_exists = 'append', con = engine)
-    con.commit()
+    db_process(jongang_data, 'jongang_lib_data','project')
 
 if __name__ == '__main__':
 
-    for i in range(1, 48392):
-        print(i)
-        jongang_api('도서', i)
+    jongang_api('도서', i) # i = 1부터 48392까지의 484만개의 도서 데이터

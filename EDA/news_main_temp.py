@@ -13,6 +13,7 @@ from konlpy.tag import Okt
 from konlpy.utils import pprint
 from collections import Counter
 
+# 형태소 분리기
 okt = Okt()
 
 """
@@ -72,13 +73,14 @@ def listEmpty(x):
         return y
 
 def df_sep(df, table):
+    
     DATE =pd.DataFrame()
     con = connet()
     cursor = con.cursor()
     a = f"""select count(*) from project2.news_table_daily;"""
     b = cursor.execute(a)
     c = cursor.fetchone()[0]
-    print(c)
+
     base = pd.DataFrame(df)
     base = base.reset_index()
     news_table = pd.DataFrame()
@@ -93,10 +95,11 @@ def df_sep(df, table):
     base['month']= base['date'].dt.month
     base['day']= base['date'].dt.day
     DATE = base[['year','month', 'day']]
+    
     #item키 생성 방식
     base['cc']= base['company'].str[:1]
-
     base['index'] = base['index']+ base['cc']
+
     #이 item 키를 가지고 news_table과 DATE를 만듬
     DATE['index'] = base['index']
     news_table['context']= base['title']
@@ -121,22 +124,7 @@ def dropNull(df):
     return df
 
 if __name__ == "__main__":
-
+    # 뉴스 입력값 구조
     # df = dropNull(donga_new(donga))
-    # df_sep(df, 'donga_news')
-
-    # df = dropNull(joongang_new(joongang))
-    # df_sep(df, 'joongang_news')
-
-
-    # df = dropNull(chosun_new(chosun))
-    # df_sep(df, 'chosun_news')
-
-
-    # df = dropNull(hani_new(hani))
-    # df_sep(df, 'hani_news')
-
-
-    # df = dropNull(khan_new(khan))
-    # df_sep(df, 'khan_news')
+    # df_sep(df, 'donga_news') 
     print('c')

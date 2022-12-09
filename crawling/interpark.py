@@ -12,6 +12,7 @@ from sqlalchemy import create_engine
 import datetime
 import json
 from dateutil.relativedelta import relativedelta
+from book_connect import *
 
 f= pd.DataFrame()
 total =pd.DataFrame()
@@ -36,12 +37,10 @@ def interpark_year(year, page):
     soup = bs(response,'html.parser')
     result = soup.text
 
-    # print(result)z
     a = soup.select("span")
     json_result = json.loads(json.dumps(result))
     json_result = re.sub("\"", "", json_result)
     a = pd.DataFrame([json_result.split('\n')], columns=['1','2','3','4','5','6'])
-    # a = a.replace(str('/'),' ')
     b = json.dumps(a['5'].to_json())
     b = pd.DataFrame([b.split('{')])
     c = b.iloc[0][3:48]
@@ -100,22 +99,9 @@ def interpark_year(year, page):
     g['date'], h['date'], i['date'] = str(year), str(year), str(year)
     g['rank'] = [(x + 1 +(page - 1) * 15) for x in range(15)]
 
-    con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='lgg032800',
-                            db='project2',
-                            charset='utf8')
-
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-    i.to_sql('interpark_year_grade',if_exists = 'append', con = engine)
-    con.commit()
-
-    g.to_sql('interpark_year_info',if_exists = 'append', con = engine)
-    con.commit()
-
-    h.to_sql('interpark_year_sales',if_exists = 'append', con = engine)
-    con.commit()
+    db_process(i, 'interpark_year_grade', 'project')
+    db_process(g, 'interpark_year_info', 'project')
+    db_process(h, 'interpark_year_sales','project')    
 
 
 def interpark_month(year,month, page):
@@ -126,12 +112,10 @@ def interpark_month(year,month, page):
     soup = bs(response,'html.parser')
     result = soup.text
 
-    # print(result)z
     a = soup.select("span")
     json_result = json.loads(json.dumps(result))
     json_result = re.sub("\"", "", json_result)
     a = pd.DataFrame([json_result.split('\n')], columns=['1','2','3','4','5','6'])
-    # a = a.replace(str('/'),' ')
     b = json.dumps(a['5'].to_json())
     b = pd.DataFrame([b.split('{')])
     c = b.iloc[0][3:48]
@@ -190,50 +174,14 @@ def interpark_month(year,month, page):
     
     g['date'], h['date'], i['date'] = str(year)+str(month), str(year)+str(month),str(year)+ str(month)
     g['rank'] = [(x + 1 +(page - 1) * 15) for x in range(15)]
+
+    db_process(i, 'interpark_month_grade', 'project')
+    db_process(g, 'interpark_month_info', 'project')
+    db_process(h, 'interpark_month_sales','project')    
     
-    con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='lgg032800',
-                            db='project2',
-                            charset='utf8')
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-    i.to_sql('interpark_month_grade',if_exists = 'append', con = engine)
-    con.commit()
-
-    g.to_sql('interpark_month_info',if_exists = 'append', con = engine)
-    con.commit()
-
-    h.to_sql('interpark_month_sales',if_exists = 'append', con = engine)
-    con.commit()
-
-
-        # for k in range(1,11):
-
-        #   yes24_year(a.strftime("%Y"),a.strftime("%m"),k)
-        #   yes24_day(a.strftime("%Y"),a.strftime("%m"),a.strftime("%d"),k )
-
-        #   for j in range(1,6):
-            
-        #     yes24_week(a.strftime("%Y"),a.strftime("%m"),j,k)    /
-    
-interpark_month(2007, str('03'), 1)
 if __name__ == "__main__":
-
-
-  for z in range(1, 17):
-
-      for k in range(1,13):
-        a = datetime.datetime(2008, 2, 1) + relativedelta(months=k)
-        
-        for q in range(1,11):
-          try:
-            print(a.strftime("%m")+"month", str(z)+"page")
-            interpark_month(2021+z, a.strftime("%m"), q)
-          except KeyError as e:
-            print(e)
-            print(str(2006+z),  a.strftime("%m"), q)
-          except TypeError as e:
-            print(e)
-            print(str(2006+z),  a.strftime("%m"), q)
+  
+  #2008년부터 가능
+  interpark_month('year', 'month', 'page')
+  interpark_year('year','page')

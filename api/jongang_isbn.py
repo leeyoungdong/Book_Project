@@ -11,8 +11,7 @@ import re
 from sqlalchemy import create_engine
 import datetime
 from urllib.request import HTTPError
-
-jongurl = 'https://www.nl.go.kr/seoji/SearchApi.do?cert_key=d8b083a071d52098f7ebc90f64ae6cb9bc66a6c47f0a6d10c4fd1f0bd5907c5c&result_style=xml&page_no={}&page_size=100'
+from connect import *
 
 def jongang_api(page):
 
@@ -21,7 +20,6 @@ def jongang_api(page):
     url = jongurl.format( page)
     result = requests.get(url).text
     soup = bs(result,'lxml-xml')
-
     get = soup.find_all("e")
 
     for post in get:
@@ -50,20 +48,10 @@ def jongang_api(page):
       
       jongang_data = pd.concat([jongang_data, df])
     
-    con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='!As36190301',
-                            db='yoyoyo',
-                            charset='utf8')
-
-    engine = create_engine('mysql+pymysql://root:!As36190301@localhost/yoyoyo')
-    jongang_data.to_sql('jongang_isbn',if_exists = 'append', con = engine)
-    con.commit()
-
+    db_process(jongang_data, 'jongang_isbn', 'project')
+    
 if __name__ == '__main__':
-  for i in range(1,44396):
+  
+  jongang_api(i) # i = index값 1부터 2000년 2022 10월 44396
 
-      print(i)
-      jongang_api(i)
     

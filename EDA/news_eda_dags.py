@@ -19,7 +19,6 @@ con = pymysql.connect(host='localhost',
 engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project3')
 
 cursor = con.cursor()
-# project.  ---- db 이름
 
 # hani 만 pdade
 def joongang_db(year, month, day):

@@ -11,8 +11,7 @@ import numpy as np
 import pymysql
 from sqlalchemy import create_engine
 from urllib.request import HTTPError
-
-joongang_URL = 'https://www.joongang.co.kr/sitemap/index/{}/{}/{}'
+from book_connect import *
 
 def joongang_crawl(year, month, day):
 
@@ -23,37 +22,23 @@ def joongang_crawl(year, month, day):
     soup = bs(response,'html.parser')
     result = soup.select("li.card")
 
-
+    # 본문내용 크롤링
     for post in result:
         context = post.select_one("h2.headline").text
 
         try:
             date = post.select_one("p.date")
-        except AttributeError as e:
+        except AttributeError as e: # 주말 및 공휴일은 뉴스가 없으므로 error발생
             print(e)
             pass
         df = pd.DataFrame({'context':context,'date':date}, index = [0])
         joongang_data = joongang_data.append(df, ignore_index = True)
     
-    joongang_data = joongang_data[5:]
+    joongang_data = joongang_data[5:] # 앞쪽에 공백내용이 같이 크롤링됨
+    db_process(joongang_data, 'joongang_news', 'project')
 
-    con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='lgg032800',
-                            db='project2',
-                            charset='utf8')
-
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-    joongang_data.to_sql('joongang_news',if_exists = 'append', con = engine)
-    con.commit()
 
 
 if __name__ == '__main__':
-    
-
-    for i in range(1, 8360):
-        print(i)
-        a = datetime.datetime(2000, 1, 1) + datetime.timedelta(days= i - 1)
-        joongang_crawl(a.strftime("%Y/%m/%d"))
+    joongang_crawl('yearmonthday') # 11월 현재 8360일정도 크롤링 해야함
 

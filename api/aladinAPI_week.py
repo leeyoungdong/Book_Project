@@ -14,6 +14,7 @@ from lxml import html
 from urllib.parse import urlencode, quote_plus, unquote
 import datetime
 from sqlite3 import OperationalError
+from connect import *
 
 #역으로 리스트 출력 
 #input : 시작(큰 수), 끝(작은 수) 
@@ -22,10 +23,12 @@ def make_list_desc(start, end):
     for i in range(start, end-1, -1):
         temp.append(i)
     return temp
+
 def make_zero_month(month):
     temp = str(month)
     smonth =temp.zfill(2)
     return smonth
+
 #연도 주
 def str_make_list_desc(start,end):
     temp = []
@@ -41,23 +44,15 @@ def wstr_make_list_desc(start,end):
         ztmp = tmp.zfill(2)
         temp.append(ztmp)
     return temp
-#https://www.aladin.co.kr/ttb/api/ItemList.aspx
-# ?ttbkey=ttbokok72722206001&QueryType=Bestseller&MaxResults=200&
-# start=1&
-# SearchTarget=Book
-# &output=xml&
-# Version=20131101&
-# Year=2022
-# &Month=08
-# &Week=5'
-My_API_Key = unquote('ttbokok72722206001')
-Aladin_URL = 'https://www.aladin.co.kr/ttb/api/ItemList.aspx'
+
 def changeStr(num):
     strNum = str(num)
     return strNum
 
 def Aladin_Week(year,month,week):
+
     aladin_week_data = pd.DataFrame()
+
     queryParams = '?' + urlencode(
         {
             quote_plus('ttbkey') : My_API_Key,
@@ -74,18 +69,8 @@ def Aladin_Week(year,month,week):
     )
     response = requests.get(Aladin_URL + queryParams).text.encode('utf-8')
     xmlobj = bs(response, 'lxml-xml')
-    #print(xmlobj)
-    
     rows = xmlobj.findAll('item')
-    #print(rows[1])
-    # columns = rows[0].find_all()
-    # num = 0
-    # for k in columns:
-        
-    #     ss = k.name
-    #     print(num)
-    #     num += 1
-    #     print(ss)
+    
     week_date =""
     week_date = year+month+week
     
@@ -106,29 +91,22 @@ def Aladin_Week(year,month,week):
         except AttributeError as e :
             print(e)
             pass
+
     aladin_week_data['wperiod']=week_date
     if len(aladin_week_data)==0:
         print('안들어가')
         pass
 
     else:
-        con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='lgg032800',
-                            db='project2',
-                            charset='utf8')
-
-        engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-        aladin_week_data.to_sql('alading_week',if_exists = 'append', con = engine)
-        con.commit()
-
+        db_process(aladin_week_data, 'alading_week', 'project')
+        
     
 if __name__ == "__main__":
+    # year / month / week
     year_list = str_make_list_desc(2022, 2008)
-    
     month_list = wstr_make_list_desc(12,1)
     week_list =str_make_list_desc(5,1)
+    
     for year in year_list:
         if year =='2022':
             month = wstr_make_list_desc(11,1)
