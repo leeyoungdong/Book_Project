@@ -1,0 +1,28 @@
+{% extends "home/base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+
+{% block result %}
+    <form action="{% url 'home:resultPR' %}" method="">
+        <div class="container my-3">
+            <table class="table">
+                <thead>
+                    <tr class="thead-dark">
+                        <th>index</th><th>조사기간(년)</th><th>조사기간(월)</th><th>조사기간(일)</th><th>출판연도</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for period in periods %}
+                <tr>
+                    <td>{{ period.index }}</td>
+                    <td>{{ period.year }}</td>
+                    <td>{{ period.month }}</td>
+                    <td>{{ period.day }}</td>
+                    <td>{{ period.pub_date  }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+{% endblock result %}

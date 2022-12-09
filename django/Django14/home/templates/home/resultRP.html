@@ -1,0 +1,28 @@
+{% extends "home/base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+
+{% block result %}
+    <form action="{% url 'home:resultRP' %}" method="">
+        <div class="container my-3">
+            <table class="table">
+                <thead>
+                    <tr class="thead-dark">
+                        <th>index</th><th>순위</th><th>리뷰점수</th><th>리뷰숫자</th><th>사이트</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for reputation in reputations %}
+                <tr>
+                    <td>{{ reputation.index }}</td>
+                    <td>{{ reputation.rank }}</td>
+                    <td>{{ reputation.review_rate }}</td>
+                    <td>{{ reputation.review_num  }}</td>
+                    <td>{{ reputation.portal  }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+{% endblock result %}

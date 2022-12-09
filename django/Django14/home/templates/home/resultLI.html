@@ -1,0 +1,27 @@
+{% extends "home/base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+
+{% block result %}
+    <form action="{% url 'home:resultLD' %}" method="">
+        <div class="container my-3">
+            <table class="table">
+                <thead>
+                    <tr class="thead-dark">
+                        <th>index</th><th>제목</th><th>isbn번호</th><th>isbn13자리</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for lib_info in libinfos %}
+                <tr>
+                    <td>{{ lib_info.index }}</td>
+                    <td>{{ lib_info.title }}</td>
+                    <td>{{ lib_info.isbn }}</td>
+                    <td>{{ lib_info.isbn_add_code  }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+{% endblock result %}

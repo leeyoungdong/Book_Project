@@ -1,0 +1,26 @@
+{% extends "home/base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+{% block result %}
+    <form action="{% url 'home:resultBT' %}" method="">
+        <div class="container my-3">
+            <table class="table">
+                <thead>
+                    <tr class="thead-dark">
+                        <th>index</th><th>조사연도</th><th>제목</th><th>저자</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for book_table in book_tables %}
+                <tr>
+                    <td>{{ book_table.index }}</td>
+                    <td>{{ book_table.date }}</td>
+                    <td>{{ book_table.title }}</td>
+                    <td>{{ book_table.author  }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+{% endblock result %}

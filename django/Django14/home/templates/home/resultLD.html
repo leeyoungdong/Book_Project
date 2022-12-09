@@ -1,0 +1,30 @@
+{% extends "home/base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+
+{% block result %}
+    <form action="{% url 'home:resultLD' %}" method="">
+        <div class="container my-3">
+            <table class="table">
+                <thead>
+                    <tr class="thead-dark">
+                        <th>index</th><th>저자</th><th>출판연도(년)</th><th>출판연도(달)</th><th>출판연도(일)</th><th>출판연도(기간)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for lib_date in libdates %}
+                <tr>
+                    <td>{{ lib_date.index }}</td>
+                    <td>{{ lib_date.pub }}</td>
+                    <td>{{ lib_date.pub_year }}</td>
+                    <td>{{ lib_date.pub_month  }}</td>
+                    <td>{{ lib_date.pub_day }}</td>
+                    <td>{{ lib_date.pub_date }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+{% endblock result %}
+        

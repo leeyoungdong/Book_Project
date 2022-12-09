@@ -1,9 +1,0 @@
-{% if postList %}
-  <ul>
-  {% for post in postList %}
-  <li><a href="/board/{{ post.id }}/">{{ post.title }}</a></li>
-  {% endfor %}
-  </ul>
-{% else %}
-  <p>게시물이 없습니다.</p>
-{% endif %}

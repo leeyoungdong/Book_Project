@@ -1,0 +1,176 @@
+{% extends "home/base.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+
+{% block question %}
+    {%if context == 'information' %}
+        <form action="{% url 'home:resultIN' %}" method="">
+            <!-- keyword search  -->
+            <div class="form-group">
+                <input type="text" name="title" placeholder="title 입력해주세용" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="isbn" placeholder="isbn번호 10자리를 입력해주세용" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="publisher" placeholder="출판사를 입력해주세용" class="form-control">
+            </div>            
+            <div class="form-group">
+                <button class="btn btn-block button-theme btn-md">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+
+    
+    {% elif context == 'book_table' %}
+        <form action="{% url 'home:resultBT' %}" method="">
+            <div class="form-group">
+                <input type="text" name="title" placeholder="title 입력해주세용" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="date" placeholder="베스트셀러기간" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="author" placeholder="저자 입력해주세용" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-block button-theme btn-md">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </form>    
+    {% elif context == 'buyc' %}
+        <form action="{% url 'home:resultBC' %}" method="">
+            <!-- keyword search  -->
+            <div class="form-group">
+                <input type="text" name="portal" placeholder="portal 입력해주세용" class="form-control">
+            </div>
+            <div class="form-group">
+            <input type="text" name="price" placeholder="가격" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="sales" placeholder="할인가" class="form-control">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block button-theme btn-md">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    {% elif context == 'period' %}
+        <form action="{% url 'home:resultPR' %}" method="">
+            <div class="form-group">
+                <input type="text" name="year" placeholder="년도" class="form-control">
+            </div>
+            <div class="form-group">
+            <input type="text" name="month" placeholder="월" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="week" placeholder="주" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="day" placeholder="일" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="pubdate" placeholder="출판일자" class="form-control">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block button-theme btn-md">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    {% elif context == 'reputation' %}
+        <form action="{% url 'home:resultRP' %}" method="">
+            <div class="form-group">
+                <input type="text" name="portal" placeholder="사이트" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="rank" placeholder="순위" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="review_num" placeholder="리뷰숫자" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="review_rate" placeholder="리뷰점수" class="form-control">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block button-theme btn-md">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    {% elif context == 'lib_table' %}
+        <form action="{% url 'home:resultLT' %}" method="">
+
+            <div class="form-group">
+                <input type="text" name="title" placeholder="제목" class="form-control">
+            </div>
+            <div class="form-group">
+            <input type="text" name="pub" placeholder="출판사" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="author" placeholder="저자" class="form-control">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block button-theme btn-md">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    {% elif context == 'lib_s_a' %}
+        <form action="{% url 'home:resultLSA' %}" method="">
+
+            <div class="form-group">
+                <input type="text" name="author" placeholder="저자" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="price" placeholder="가격" class="form-control">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block button-theme btn-md">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    {% elif context == 'lib_info' %}
+        <form action="{% url 'home:resultLI' %}" method="">
+            <div class="form-group">
+                <input type="text" name="title" placeholder="제목" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="isbn" placeholder="isbn" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="isbnaddcode" placeholder="isbn 13자리" class="form-control">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block button-theme btn-md">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    {% elif context == 'lib_date' %}
+        <form action="{% url 'home:resultLD' %}" method="">
+            <div class="form-group">
+                <input type="text" name="pub" placeholder="출판사" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="pubyear" placeholder="연도" class="form-control">
+            </div>
+            <div class="form-group">
+            <input type="text" name="pubmonth" placeholder="월" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="text" name="pubday" placeholder="일" class="form-control">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-block button-theme btn-md">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    {% endif %}
+{% endblock question %}
