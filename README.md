@@ -64,7 +64,7 @@ Historical Data
 ![image](https://user-images.githubusercontent.com/87170837/206513196-47b40a8a-0bec-4a13-82d0-9f4696a75d82.png)
 
 # GRAFANA
-
+A
 # 프로젝트 회고
 
 # 개선점
