@@ -4,28 +4,12 @@ import re
 import pymysql
 from sqlalchemy import create_engine
 from book_eda import *
+from book_main import *
 
-######### groupby로 데이터 프레임 각행에 중복되는 숫자 붙혀주는 함수식
-def dup_count(table, column):
-    a = table.groupby(f'{column}').cumcount()+1
-    table['new1'] = a
-    table['new1'] = table['new1'].astype('str')
-    table[f'{column}'] = table[f'{column}'] + '/' +table['new1']
-    return table[f'{column}']
-
-#################### 교보 월간
+# 교보 월간
 def kb_m(df):
 
-    period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
-
-    book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
-
-    information = pd.DataFrame(index=range(0),columns = ['title','context','category','isbn','publisher'])
-
-    reputation = pd.DataFrame(index=range(0),columns = ['itemkey','rank','review_num','review_rate','portal'])
-
-    buyc = pd.DataFrame(index=range(0),columns = ['portal','accucnt','aggrcnt','price','sales'])
-
+    period, book_table, information, reputation, buyc = base_df_create()
 
     kb_m = pd.DataFrame(df)
     kb_m = pd.DataFrame(kb_m)
@@ -37,7 +21,6 @@ def kb_m(df):
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'k'+'m'
-
     kb_m['저자'] = dup_count(kb_m, '저자')
     kb_m['저자'] = kb_m['저자'] .astype('str')
     kb_m['저자']  = kb_m['저자']  + 'k'+'m'
@@ -45,10 +28,10 @@ def kb_m(df):
     kb_m['제목'] = dup_count(kb_m, '제목')
     kb_m['제목'] = kb_m['제목'].astype('str')
     kb_m['제목'] = kb_m['제목']  + kb_m['index']
-    
     kb_m['기간'] = kb_m['기간'].astype('str')
     kb_m['기간'] = kb_m['기간'] + 'k'
     kb_m['기간'] = dup_count(kb_m, '기간')
+
     period['date'] = kb_m['기간'] 
     period['pub_date'] = kb_m['출판연도']
     period['year'] = kb_m['기간'].str.slice(0,4)
@@ -74,55 +57,21 @@ def kb_m(df):
     buyc['portal'] = dup_count(buyc, 'portal')
     buyc = buyc.drop('new1',axis=1)
 
-    con = pymysql.connect(host='localhost',
-                                port=3306,
-                                user='root',
-                                password='lgg032800',
-                                db='project2',
-                                charset='utf8')
-
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-
-    period.to_sql('period_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    information.to_sql('information_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-#################### 교보 주간
+    df_to_db(period, book_table, information, reputation, buyc)
+    
+# 교보 주간
 def kb_w(df):
 
     kb_w = pd.DataFrame(df)
     kb_m = pd.DataFrame(kb_w)
 
-
-    period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
-
-    book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
-
-    information = pd.DataFrame(index=range(0),columns = ['title','context','category','isbn','publisher'])
-
-    reputation = pd.DataFrame(index=range(0),columns = ['itemkey','rank','review_num','review_rate','portal'])
-
-    buyc = pd.DataFrame(index=range(0),columns = ['portal','accucnt','aggrcnt','price','sales'])
-
+    period, book_table, information, reputation, buyc = base_df_create()
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
-    # kb_m = kb_m.drop('0', axis = 1)
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'k'+ 'w'
-
     kb_m['저자'] = dup_count(kb_m, '저자')
     kb_m['저자'] = kb_m['저자'] .astype('str')
     kb_m['저자']  = kb_m['저자']  + 'k' + 'w'
@@ -130,10 +79,10 @@ def kb_w(df):
     kb_m['제목'] = dup_count(kb_m, '제목')
     kb_m['제목'] = kb_m['제목'].astype('str')
     kb_m['제목'] = kb_m['제목'] + kb_m['index']
-
     kb_m['기간'] = kb_m['기간'].astype('str')
     kb_m['기간'] = kb_m['기간'] + 'k'+ 'w'
     kb_m['기간'] = dup_count(kb_m, '기간')
+
     period['date'] = kb_m['기간'] 
     period['pub_date'] = kb_m['출판연도']
     period['year'] = kb_m['기간'].str.slice(0,4)
@@ -160,55 +109,21 @@ def kb_w(df):
     buyc['portal'] = dup_count(buyc, 'portal')
     buyc = buyc.drop('new1',axis=1)
 
-    con = pymysql.connect(host='localhost',
-                                port=3306,
-                                user='root',
-                                password='lgg032800',
-                                db='project2',
-                                charset='utf8')
+    df_to_db(period, book_table, information, reputation, buyc)
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-
-    period.to_sql('period_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    information.to_sql('information_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-#####################교보 연간
+#교보 연간
 def kb_y(df):
 
     kb_y= pd.DataFrame(df)
     kb_m = pd.DataFrame(kb_y)
 
-
-    period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
-
-    book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
-
-    information = pd.DataFrame(index=range(0),columns = ['title','context','category','isbn','publisher'])
-
-    reputation = pd.DataFrame(index=range(0),columns = ['itemkey','rank','review_num','review_rate','portal'])
-
-    buyc = pd.DataFrame(index=range(0),columns = ['portal','accucnt','aggrcnt','price','sales'])
-
+    period, book_table, information, reputation, buyc = base_df_create()
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
-    # kb_m = kb_m.drop('0', axis = 1)
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'k'+'y'
-
     kb_m['저자'] = dup_count(kb_m, '저자')
     kb_m['저자'] = kb_m['저자'] .astype('str')
     kb_m['저자']  = kb_m['저자']  + 'k'+'y'
@@ -216,10 +131,10 @@ def kb_y(df):
     kb_m['제목'] = dup_count(kb_m, '제목')
     kb_m['제목'] = kb_m['제목'].astype('str')
     kb_m['제목'] = kb_m['제목']  + kb_m['index']
-
     kb_m['기간'] = kb_m['기간'].astype('str')
     kb_m['기간'] = kb_m['기간'] + 'k'+ 'y'
     kb_m['기간'] = dup_count(kb_m, '기간')
+
     period['date'] = kb_m['기간'] 
     period['pub_date'] = kb_m['출판연도']
     period['year'] = kb_m['기간'].str.slice(0,4)
@@ -244,45 +159,15 @@ def kb_y(df):
     buyc['portal'] = dup_count(buyc, 'portal')
     buyc = buyc.drop('new1',axis=1)
 
-    con = pymysql.connect(host='localhost',
-                                port=3306,
-                                user='root',
-                                password='lgg032800',
-                                db='project2',
-                                charset='utf8')
+    df_to_db(period, book_table, information, reputation, buyc)
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-
-    period.to_sql('period_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    information.to_sql('information_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-######################yes24 일간
+#yes24 일간
 def yes_d(df):
 
     yes_d = pd.DataFrame(df)
     kb_m = pd.DataFrame(yes_d)
 
-    period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
-
-    book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
-
-    information = pd.DataFrame(index=range(0),columns = ['title','context','category','isbn','publisher'])
-
-    reputation = pd.DataFrame(index=range(0),columns = ['itemkey','rank','review_num','review_rate','portal'])
-
-    buyc = pd.DataFrame(index=range(0),columns = ['portal','accucnt','aggrcnt','price','sales'])
+    period, book_table, information, reputation, buyc = base_df_create()
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
@@ -290,8 +175,6 @@ def yes_d(df):
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'y'+'d'
-
-
     kb_m['auther'] = dup_count(kb_m, 'auther')
     kb_m['auther'] = kb_m['auther'] .astype('str')
     kb_m['auther']  = kb_m['auther'] + 'y'+'d'
@@ -299,11 +182,10 @@ def yes_d(df):
     kb_m['context'] = dup_count(kb_m, 'context')
     kb_m['context'] = kb_m['context'].astype('str')
     kb_m['context'] = kb_m['context']  + kb_m['index']
-    print(kb_m.columns)
-
     kb_m['r_date'] = kb_m['r_date'].astype('str')
     kb_m['r_date'] = kb_m['r_date']+'y' + 'd'
     kb_m['r_date'] = dup_count(kb_m, 'r_date')
+
     period['date'] = kb_m['r_date']
     period['pub_date'] = kb_m['publication']
     period['year'] = kb_m['r_date'].str.slice(0,4)
@@ -326,47 +208,15 @@ def yes_d(df):
 
     buyc['portal'] = reputation['portal']
 
-    con = pymysql.connect(host='localhost',
-                                port=3306,
-                                user='root',
-                                password='lgg032800',
-                                db='project2',
-                                charset='utf8')
+    df_to_db(period, book_table, information, reputation, buyc)
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-
-    period.to_sql('period_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    information.to_sql('information_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-######################yes24 월간
+#yes24 월간
 def yes_m(df):
 
     yes_m = pd.DataFrame(df)
     kb_m = pd.DataFrame(yes_m)
 
-
-    period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
-
-    book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
-
-    information = pd.DataFrame(index=range(0),columns = ['title','context','category','isbn','publisher'])
-
-    reputation = pd.DataFrame(index=range(0),columns = ['itemkey','rank','review_num','review_rate','portal'])
-
-    buyc = pd.DataFrame(index=range(0),columns = ['portal','accucnt','aggrcnt','price','sales'])
-
+    period, book_table, information, reputation, buyc = base_df_create()
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
@@ -374,7 +224,6 @@ def yes_m(df):
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'y'+'m'
-
     kb_m['auther'] = dup_count(kb_m, 'auther')
     kb_m['auther'] = kb_m['auther'] .astype('str')
     kb_m['auther']  = kb_m['auther'] + 'y'+'m'
@@ -382,11 +231,10 @@ def yes_m(df):
     kb_m['context'] = dup_count(kb_m, 'context')
     kb_m['context'] = kb_m['context'].astype('str')
     kb_m['context'] = kb_m['context'] + kb_m['index']
-    print(kb_m)
-
     kb_m['r_date'] = kb_m['r_date'].astype('str')
     kb_m['r_date'] = kb_m['r_date']+'y' + 'm'
     kb_m['r_date'] = dup_count(kb_m, 'r_date')
+
     period['date'] = kb_m['r_date']
     period['pub_date'] = kb_m['publication']
     period['year'] = kb_m['r_date'].str.slice(0,4)
@@ -409,47 +257,15 @@ def yes_m(df):
 
     buyc['portal'] = reputation['portal']
 
-    con = pymysql.connect(host='localhost',
-                                port=3306,
-                                user='root',
-                                password='lgg032800',
-                                db='project2',
-                                charset='utf8')
+    df_to_db(period, book_table, information, reputation, buyc)
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-
-    period.to_sql('period_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    information.to_sql('information_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-######################yes24 월간
+#yes24 월간
 def yes_y(df):
 
     yes_y = pd.DataFrame(df)
     kb_m = pd.DataFrame(yes_y)
 
-
-    period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
-
-    book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
-
-    information = pd.DataFrame(index=range(0),columns = ['title','context','category','isbn','publisher'])
-
-    reputation = pd.DataFrame(index=range(0),columns = ['itemkey','rank','review_num','review_rate','portal'])
-
-    buyc = pd.DataFrame(index=range(0),columns = ['portal','accucnt','aggrcnt','price','sales'])
-
+    period, book_table, information, reputation, buyc = base_df_create()
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
@@ -457,7 +273,6 @@ def yes_y(df):
     kb_m = kb_m.reset_index()
     kb_m['index'] = kb_m['index'].astype('str')
     kb_m['index'] = kb_m['index'] + 'y'+'y'
-
     kb_m['auther'] = dup_count(kb_m, 'auther')
     kb_m['auther'] = kb_m['auther'] .astype('str')
     kb_m['auther']  = kb_m['auther'] + 'y'+'y'
@@ -465,11 +280,10 @@ def yes_y(df):
     kb_m['context'] = dup_count(kb_m, 'context')
     kb_m['context'] = kb_m['context'].astype('str')
     kb_m['context'] = kb_m['context'] + kb_m['index']
-    print(kb_m.columns)
-
     kb_m['r_date'] = kb_m['r_date'].astype('str')
     kb_m['r_date'] = kb_m['r_date']+'y' + 'y'
     kb_m['r_date'] = dup_count(kb_m, 'r_date')
+
     period['date'] = kb_m['r_date']
     period['pub_date'] = kb_m['publication']
     period['year'] = kb_m['r_date'].str.slice(0,4)
@@ -491,46 +305,16 @@ def yes_y(df):
 
     buyc['portal'] = reputation['portal']
 
-    con = pymysql.connect(host='localhost',
-                                port=3306,
-                                user='root',
-                                password='lgg032800',
-                                db='project2',
-                                charset='utf8')
+    df_to_db(period, book_table, information, reputation, buyc)
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-
-    period.to_sql('period_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    information.to_sql('information_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-###################### 인터파크 연간
+# 인터파크 연간
 def inter_y(df):
 
     inter_y = pd.DataFrame(df)
     kb_m = pd.DataFrame(inter_y)
 
 
-    period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
-
-    book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
-
-    information = pd.DataFrame(index=range(0),columns = ['title','context','category','isbn','publisher'])
-
-    reputation = pd.DataFrame(index=range(0),columns = ['itemkey','rank','review_num','review_rate','portal'])
-
-    buyc = pd.DataFrame(index=range(0),columns = ['portal','accucnt','aggrcnt','price','sales'])
+    period, book_table, information, reputation, buyc = base_df_create()
 
 
     kb_m = kb_m.reset_index()
@@ -547,10 +331,10 @@ def inter_y(df):
     kb_m['title'] = dup_count(kb_m, 'title')
     kb_m['title'] = kb_m['title'].astype('str')
     kb_m['title'] = kb_m['title'] + kb_m['index']
-
     kb_m['date'] = kb_m['date'].astype('str')
     kb_m['date'] = kb_m['date']+ 'i'+'y'
     kb_m['date'] = dup_count(kb_m, 'date')
+
     period['date'] = kb_m['date']
     period['year'] = kb_m['date'].str.slice(0,4)
 
@@ -573,45 +357,15 @@ def inter_y(df):
     buyc['aggrcnt'] = kb_m['aggrCnt']
     buyc['sales'] =  kb_m['구매력?']
 
-    con = pymysql.connect(host='localhost',
-                                port=3306,
-                                user='root',
-                                password='lgg032800',
-                                db='project2',
-                                charset='utf8')
+    df_to_db(period, book_table, information, reputation, buyc)
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-
-    period.to_sql('period_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    information.to_sql('information_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-######################인터파크 월간
+#인터파크 월간
 def inter_m(df):
 
     inter_w = pd.DataFrame(df)
     kb_m = pd.DataFrame(inter_w)
 
-    period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
-
-    book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
-
-    information = pd.DataFrame(index=range(0),columns = ['title','context','category','isbn','publisher'])
-
-    reputation = pd.DataFrame(index=range(0),columns = ['itemkey','rank','review_num','review_rate','portal'])
-
-    buyc = pd.DataFrame(index=range(0),columns = ['portal','accucnt','aggrcnt','price','sales'])
+    period, book_table, information, reputation, buyc = base_df_create()
 
     kb_m = kb_m.reset_index()
     kb_m = kb_m.drop('index', axis = 1)
@@ -629,8 +383,8 @@ def inter_m(df):
     kb_m['date'] = kb_m['date'].astype('str')
     kb_m['date'] = kb_m['date']+ 'i'+'m'
     kb_m['date'] = dup_count(kb_m, 'date')
-    period['date'] = kb_m['date']
 
+    period['date'] = kb_m['date']
     period['year'] = kb_m['date'].str.slice(0,4)
     period['month'] = kb_m['date'].str.slice(4,6)
 
@@ -653,46 +407,15 @@ def inter_m(df):
     buyc['aggrcnt'] = kb_m['aggrCnt']
     buyc['sales'] =  kb_m['구매력?']
 
-    con = pymysql.connect(host='localhost',
-                                port=3306,
-                                user='root',
-                                password='lgg032800',
-                                db='project2',
-                                charset='utf8')
+    df_to_db(period, book_table, information, reputation, buyc)
 
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-
-    period.to_sql('period_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    information.to_sql('information_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-###################### 알라딘 주간
+# 알라딘 주간
 def aladin(df):
 
     aladin = pd.DataFrame(df)
     aladin.columns = ['index','rank','title','author','publisher','pubDate','description','isbn10','price','salesPoint','wperiod']
-    print(aladin)
-    period = pd.DataFrame(index=range(0),columns = ['date','year','month','week','day','pub_date'])
 
-    book_table = pd.DataFrame(index=range(0),columns = ['itemkey','date','title','author'])
-
-    information = pd.DataFrame(index=range(0),columns = ['title','context','category','isbn','publisher'])
-
-    reputation = pd.DataFrame(index=range(0),columns = ['itemkey','rank','review_num','review_rate','portal'])
-
-    buyc = pd.DataFrame(index=range(0),columns = ['portal','accucnt','aggrcnt','price','sales'])
-
+    period, book_table, information, reputation, buyc = base_df_create()
 
     aladin = aladin.reset_index()
     aladin = aladin.drop('index', axis = 1)
@@ -736,40 +459,19 @@ def aladin(df):
     buyc['price'] = aladin['price']
     buyc['sales'] =  aladin['salesPoint']
 
-
-    con = pymysql.connect(host='localhost',
-                            port=3306,
-                            user='root',
-                            password='lgg032800',
-                            db='project2',
-                            charset='utf8')
-
-    engine = create_engine('mysql+pymysql://root:lgg032800@localhost/project2')
-
-
-    period.to_sql('period_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    book_table.to_sql('book_table_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    information.to_sql('information_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    reputation.to_sql('reputation_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-    buyc.to_sql('buyc_daily',if_exists = 'append', con = engine)
-    con.commit()
-
-
+    df_to_db(period, book_table, information, reputation, buyc)
+    
 if __name__ == "__main__":
-    yes_d()
-    yes_m()
-    yes_y()
-    kb_m()
-    kb_w()
-    kb_y()
-    inter_y()
-    inter_m()
+
     aladin()
+    # a = datetime.datetime.now()\
+    # inter_m(interpark_month('2021','05',ip_month_total, interpark_m_t))
+    # inter_y(interpark_year('2021',ip_year_total, interpark_y_t))
+    # kb_y(db_df_year('{}','기간',a.strftime("%Y"),kyobo_dup, kb_year)) # yes24 clear
+    # kb_m(db_df_month('{}','기간',a.strftime("%Y"),a.strftime("%m"),kyobo_dup, kb_month))
+    # yes_y(db_df_month('yes24_year_every','date',a.strftime("%Y"),a.strftime("%m"),yes_def, yes_year))
+    # yes_d(db_df_day('yes24_day_daily','date',a.strftime("%Y"),a.strftime("%m"),a.strftime("%d"),yes_def,yes_day))
+    # kb_w(db_df_week('{}','기간',a.strftime("%Y"),a.strftime("%m"),week,kyobo_dup, kb_week))
+    # yes_m(db_df_week('yes24_week_weekly','date',a.strftime("%Y"),a.strftime("%m"),week,yes_def,yes_month))
+    # aladin(ala_week('alading_week_every','wperiod',a.strftime("%Y"),a.strftime("%m"),week,aladina,'1'))
+    # print(db_df_day('kb_monthly','기간','2022','1','',kyobo_dup, kb_month)) # kb clear
