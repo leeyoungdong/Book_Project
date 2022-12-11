@@ -28,7 +28,7 @@
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/Apache Airflow-017CEE?style=for-the-badge&logo=Apache Airflow&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"> <img src="https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=Tableau&logoColor=white">
 
 # 데이터 파이프라인 (ELT)
-![image](https://user-images.githubusercontent.com/87170837/206433156-b03af7cb-52b3-40e3-865d-bf887af15b67.png)
+![image](https://user-images.githubusercontent.com/87170837/206919711-2d9f86ef-25a3-4a37-86c2-e2f76869e40b.png)
 - 도서/뉴스 데이터를 추출(Extract)해 Local My SQL에 적재(Load) 한후 원본데이터를 백업(innodb )
 - 적재한 데이터를 RDS에 옮기기전 전처리와 Column을 재정의(Transform)한 후 RDS에 적재
 - RDS에 적재된 데이터를 DA에서 분석 진행 후 Tableau를 사용한 BI분석 및 대시보드 생성
@@ -55,8 +55,15 @@ Historical Data
 # 프로젝트 결과물
 # BI(Business Intelligence) [클릭시 자세히 보기]
 
-[![CP2](https://user-images.githubusercontent.com/87170837/206512170-dfcd39cb-c09b-461e-9e16-ecc1027509b9.png)](https://public.tableau.com/app/profile/.10992200/viz/shared/7N343HKXK)
+
+[![image](https://user-images.githubusercontent.com/87170837/206919958-838fab34-3922-46b6-b343-cdee37855828.png)](https://public.tableau.com/app/profile/.10992200/viz/shared/7N343HKXK)
+
 # DJANGO
+![image](https://user-images.githubusercontent.com/87170837/206919763-8184a5b1-f79b-43a0-81f8-20f79a56bea6.png)
+
+![image](https://user-images.githubusercontent.com/87170837/206919786-61f703a0-ea9a-4de3-920f-e344fbef8758.png)
+
+![image](https://user-images.githubusercontent.com/87170837/206919778-50ec62c9-c895-4a77-bed9-96143e42bc2d.png)
 
 # AIRFLOW
 ![image](https://user-images.githubusercontent.com/87170837/206512889-c45e8ae0-635f-44ac-b916-a981a3614739.png)
@@ -64,7 +71,29 @@ Historical Data
 ![image](https://user-images.githubusercontent.com/87170837/206513196-47b40a8a-0bec-4a13-82d0-9f4696a75d82.png)
 
 # GRAFANA
-A
-# 프로젝트 회고
 
 # 개선점
+- 강인구: 한계 : django의 구현에 오래 걸려 배포를 하는 EC2로 가는 데 오랜 시간이 걸렸다. 
+보완점: 해당 문제는 조금 더 먼저 파악하고 해결하지 못하여 생긴 문제로 조금 더 시간을 효율적으로 쓰지 못한 담당자인 저의 잘못입니다
+
+- 이영동: 활용 툴을 깊게 이용하고 파이프라인에 적합하게 써보고싶다(airflow / GRAFANA DASHBOARD)
+eda process가 기존 DL를 참조하여 KEY 를 생성하게 되어있어 생각보다 시간이 오래걸려 다른 KEY 설정방법을 고민해봐야할듯싶다.
+
+- DA : 
+ 1. 온라인 서점 별 서로 다른 제공 데이터 범위, 아쉬운 품질 – 제공 기간, 데이터 일부 소실 등
+ 2. 판매’량＇데이터의 부족 – 판매지수 등 자체 제공 판매 수치 관련 데이터를 통한 다소 불완전한 분석 
+ 3. ‘독자＇범위의 제한 – 도서 구입 외에 구독, 대여 등 다양한 독서 경로를 반영한 추가 분석 가능성
+
+# 프로젝트 회고
+- 강인구: 이 프로젝트를 하면서 쓰지 않았던 여러 프로그램을 쓰면서 많은 것을 배운 좋은 시간이었지만, 제가 새로운 것을 배우는데 너무 많은 시간을 사용하여 다른분이 더 고생하는 문제를 발생하였습니다. 
+재화님께서 말씀하신 공부하는 시간과 프로젝트를 구현하는 시간을 제대로 구분하여 한다는 말씀을 뼈저리게 이해할 수 있는 시간이었습니다.
+
+- 박성희: 서로 다른 직군의 여럿이 한 팀을 이루어 프로젝트 전 과정을 수행하는 만큼 원활한 진행을 위해 소통과 협업이 필수적이었다는 점에서 개인적으로는 과제 진행을 위한 의사결정을 내리는 매 순간이 도전이었다. 
+개별 프로젝트에서는 고민할 필요가 없었던, 공동의 목표를 달성하기 위해 지속적으로 커뮤니케이션하고 서로의 의견차를 좁혀가는 일련의 과정이 학습 측면에서나 학습 외적인 측면에서 스스로를 돌아볼 수 있는 좋은 기회였다. 
+단일의 합의된 결과물을 내는 것이 프로젝트의 성공적인 완수라고 한다면, 성공적인 협업을 위해서는 ‘각자가 얼마나 많이 알고 뭘 할 수 있는지’만큼 ‘어떻게 함께 해낼 것인지’에 대한 충분한 고민과 ‘다름’에 대한 열린 자세가 필수적이라는 것도 몸소 깨닫게 되었다. 
+덤으로 이번 프로젝트를 진행하며 Tableau에 조금은 친숙해질 수 있었던 점이 또 하나의 수확인데, 이번 경험을 계기로 앞으로 더 많은 데이터를 가지고 스킬을 꾸준히 키워 나가야겠다.
+
+- 이영동: AWS의 인스턴스 비용은 비싸고, 다양한 툴을 효과적으로 사용하고 싶었는데 마음처럼 쉽지않았다. 
+내가 가지고 있는 능력과 스킬을 다른사람과의 협업을 통해 성장 혹은 활용하고싶다면 먼저 내 능력에 대한 깊은이해와 의견을 정확하게 제시하고 타인의 의견을 수용할줄 아는 자세가 크게 중요하다고 생각한 프로젝트였다.
+
+- 천세희: 
