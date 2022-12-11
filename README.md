@@ -29,7 +29,6 @@
 
 # 데이터 파이프라인 (ELT)
 
-![image](https://user-images.githubusercontent.com/87170837/206919711-2d9f86ef-25a3-4a37-86c2-e2f76869e40b.png)
 ![image](https://user-images.githubusercontent.com/100676096/206927710-9dec92f2-3053-42bc-aada-3bc8e35a220e.jpg)
 - 도서/뉴스 데이터를 추출(Extract)해 Local My SQL에 적재(Load) 한후 원본데이터를 백업(innodb )
 - 적재한 데이터를 RDS에 옮기기전 전처리와 Column을 재정의(Transform)한 후 RDS에 적재
