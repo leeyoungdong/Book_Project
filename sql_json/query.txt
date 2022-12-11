@@ -36,3 +36,26 @@ ALTER TABLE project2.book_table ADD CONSTRAINT book_table_FK FOREIGN KEY (title)
 
 외래키 제약 조건 끄기(바꾸기  = 1)
 SET FOREIGN_KEY_CHECKS=0;
+
+itemkey를 기반으로한 DW에서의 포털별 확인(yes24 - y, kyobo - k, aladin - a, interpark - i)
+select * from project2.book_table b1
+join project2.book_table_daily b2
+on b1.`index` = b2.`index` 
+having  b1.itemkey like "%{}"
+
+포탈 reputation과 buyc 테이블 조인을 통한 portal(yes24, aladin)간 차이 확인
+select * from project2.book_table b1
+join project2.reputation r
+on r.itemkey = b1.itemkey 
+join project2.buyc bc
+on r.portal = bc.portal 
+where bc.portal like "%{}%"
+
+18년부터 20년까지의 베스트 셀러에 올랐던 책 리스트 정보
+select * from project2.book_table b1
+join project2.information i 
+on i.title = b1.title 
+left join project2.period p
+on p.`date` = b1.`date`
+having p.`year` >= '2018' and p.`year` <='2020'
+
