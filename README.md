@@ -25,12 +25,14 @@
 - Data Analyst [#천세희](https://github.com/Alice1304) [#박성희](https://github.com/aurorave)
   
 # 기술 스택
-<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/Apache Airflow-017CEE?style=for-the-badge&logo=Apache Airflow&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"> <img src="https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=Tableau&logoColor=white">
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white"> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/Apache Airflow-017CEE?style=for-the-badge&logo=Apache Airflow&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white"> <img src="https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=Tableau&logoColor=white"> <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=Grafana&logoColor=white"> <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white"> 
+<img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=Django&logoColor=white"> 
+<img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=Amazon RDS&logoColor=white">
 
 # 데이터 파이프라인 (ELT)
 
 ![image](https://user-images.githubusercontent.com/100676096/206927710-9dec92f2-3053-42bc-aada-3bc8e35a220e.jpg)
-- 도서/뉴스 데이터를 추출(Extract)해 Local My SQL에 적재(Load) 한후 원본데이터를 백업(innodb )
+- 도서/뉴스 데이터를 추출(Extract)해 Local My SQL에 적재(Load) 한후 원본데이터를 백업(innodb dump)
 - 적재한 데이터를 RDS에 옮기기전 전처리와 Column을 재정의(Transform)한 후 RDS에 적재
 - RDS에 적재된 데이터를 DA에서 분석 진행 후 Tableau를 사용한 BI분석 및 대시보드 생성
 - RDS에 적재된 데이터는 S3스냅샷을 통해 Parquet로 2차 백업 진행
@@ -72,6 +74,7 @@ Historical Data
 ![image](https://user-images.githubusercontent.com/87170837/206513196-47b40a8a-0bec-4a13-82d0-9f4696a75d82.png)
 
 # GRAFANA
+![image](https://user-images.githubusercontent.com/87170837/207023429-a8d9ced3-e8b6-4e06-8273-273584969ba2.png)
 
 # 개선점
 - 강인구: 한계 : django의 구현에 오래 걸려 배포를 하는 EC2로 가는 데 오랜 시간이 걸렸다. 
