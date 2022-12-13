@@ -56,6 +56,9 @@ Historical Data
 ![image](https://user-images.githubusercontent.com/87170837/206432283-2acd02c2-2594-4883-90ad-e21b832aeb10.png)
 
 # 프로젝트 결과물
+[#발표영상](https://drive.google.com/file/d/1sA9fYTPs1Uq376XMSVXJbbC0PVRwhBHb/view?usp=share_link)
+
+[#프레젠테이션](https://docs.google.com/presentation/d/1j7gPUBml78syCQKBkbn4jMl6I4RpgFX_/edit?usp=share_link&ouid=106865026909624738336&rtpof=true&sd=true)
 # BI(Business Intelligence) [클릭시 자세히 보기]
 
 
