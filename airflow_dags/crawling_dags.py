@@ -29,7 +29,7 @@ dag = DAG(dag_id = 'news_crawling_batch',
           start_date= datetime(22, 11, 10),
           catchup= False,
           description= 'pipe line batch process',
-          schedule_interval = '* * * * *'
+          schedule_interval = '30 23 * * 1-5'
           )
 
 t_now = datetime.now()

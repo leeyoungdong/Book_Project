@@ -27,7 +27,7 @@ dag = DAG(dag_id = 'book_month_batch',
           start_date= datetime(22, 11, 10),
           catchup= False,
           description= 'pipe line batch process',
-          schedule_interval = '* * * * *'
+          schedule_interval = '30 23 2 * *'
           )
 
 t_now = datetime.now()
